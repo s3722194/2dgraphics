@@ -73,6 +73,11 @@ typedef struct Player {
 	circle bounds;
 	colour outline_colour;
 	colour fill_colour;
+	float speed;
+	bool move_up;
+	bool move_down;
+	bool turn_left;
+	bool turn_right;
 } player;
 
 typedef struct Asteroid {
@@ -114,6 +119,8 @@ float world_size = 1.0f;
 player ship;
 asteroid ast;
 wall2d wall;
+int total_time;
+int delta_time;
 
 float map(float x, float in_min, float in_max, float out_min, float out_max)
 {
@@ -211,7 +218,12 @@ void create_ship() {
 
 	ship.bounds.origin.x = 0;
 	ship.bounds.origin.y = 0;
-	ship.bounds.radius = 0.5;
+	ship.bounds.radius = 0.5; 
+
+	ship.move_down = false;
+	ship.move_up = false;
+	ship.turn_left = false;
+	ship.turn_right = false;
 
 }
 
@@ -274,6 +286,8 @@ void setup_game() {
 
 	create_ship();
 	create_wall();
+	delta_time = 0;
+	total_time = 0;
 }
 
 void render_string(float x, float y, void* font, const char* string)
@@ -305,6 +319,11 @@ void render_ship() {
 
 	glPushMatrix();
 	glLoadIdentity();
+
+	//tranformation
+	glTranslatef(ship.transform.position.x, ship.transform.position.y, 0.0f);
+	glRotatef(ship.transform.rotation, 0.0f, 0.0f, 1.0f);
+	glScalef(1, 1, 1);
 
 	//render the trianges
 	glBegin(GL_POLYGON);
@@ -382,6 +401,8 @@ void render_ship() {
 void render_wall() {
 	glPushMatrix();
 	glLoadIdentity();
+	
+
 	glBegin(GL_POLYGON);
 	//glColor3f(wall.fill_colour.r, wall.fill_colour.g, wall.fill_colour.b);
 	glColor3f(0.4, 0.4, 0.4);
@@ -535,7 +556,26 @@ void on_display()
 
 void update_game_state()
 {
+	delta_time = glutGet(GLUT_ELAPSED_TIME) - total_time;
+	total_time = glutGet(GLUT_ELAPSED_TIME); 
+
+
+	if (ship.move_up) {
+		ship.transform.position.y += 0.001;
+	}
+	else if (ship.move_down) {
+		ship.transform.position.y -= 0.001;
+	}
+	else if (ship.turn_left) {
+		ship.transform.rotation -= 1;
+	}
+	else if (ship.turn_right) {
+		ship.transform.rotation += 1;
+	}
+
 }
+
+
 
 void on_idle()
 {
@@ -547,6 +587,19 @@ void on_key_press(unsigned char key, int x, int y)
 {
 	switch (key)
 	{
+	case 'w':
+		//ship.transform.position.y += 0.05;
+		ship.move_up = true;
+		break;
+	case 'a':
+		ship.turn_right = true;
+		break;
+	case 's':
+		ship.move_down = true;
+		break;
+	case 'd':
+		ship.turn_left = true;
+		break;
 	case KEY_ESC:
 	case 'q':
 		end_app();
@@ -562,6 +615,24 @@ void on_special_key_press(int key, int x, int y)
 
 void on_key_release(unsigned char key, int x, int y)
 {
+	switch (key)
+	{
+	case 'w':
+		//ship.transform.position.y += 0.05;
+		ship.move_up = false;
+		break;
+	case 'a':
+		ship.turn_right = false;
+		break;
+	case 's':
+		ship.move_down = false;
+		break;
+	case 'd':
+		ship.turn_left = false;
+		break;
+	default:
+		break;
+	}
 }
 
 void on_special_key_release(int key, int x, int y)
