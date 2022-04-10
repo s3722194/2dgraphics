@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdbool.h>
+#include <math.h>
 
 #if _WIN32
 #include <windows.h>
@@ -16,14 +17,18 @@
 #include <GL/glut.h>
 #endif
 
+#ifndef M_PI
+#define M_PI 3.14159265358979323846
+#endif
+
 #define GAME_TITLE "Asteroid Arena"
 #define KEY_ESC 27
 
-typedef struct Windows
-{
-	int width, height, x_pos, y_pos;
-	bool is_fullscreen;
-} window_t;
+//typedef struct Windows
+//{
+//	int width, height, x_pos, y_pos;
+//	bool is_fullscreen;
+//} window_t;
 
 typedef struct Colour
 {
@@ -33,7 +38,7 @@ typedef struct Colour
 typedef struct Vector3
 {
 	float x, y, z;
-	
+
 } vector3;
 
 typedef struct Vector2
@@ -88,18 +93,49 @@ typedef struct Wall {
 	colour fill_colour;
 } wall2d;
 
+typedef struct
+{
+	int width, height, x_pos, y_pos;
+	bool is_fullscreen;
+} window_t;
 
+typedef struct
+{
+	float pos_x;
+	float pos_y;
+	float radius;
+} circle_t;
 
+circle_t g_rand_circles[5];
+circle_t g_user_circle;
 window_t g_mainwin;
+float world_size = 1.0f;
+
 player ship;
 asteroid ast;
 wall2d wall;
+
+float map(float x, float in_min, float in_max, float out_min, float out_max)
+{
+	return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+}
+
+circle_t init_circle(float posX, float posY, float radius)
+{
+	circle_t circle;
+
+	circle.pos_x = posX;
+	circle.pos_y = posY;
+	circle.radius = radius;
+
+	return circle;
+}
 
 void create_ship() {
 
 	//set up ship
 
-	ship.transform.scale.x=1;
+	ship.transform.scale.x = 1;
 	ship.transform.scale.y = 1;
 
 	ship.transform.rotation = 0;
@@ -169,11 +205,11 @@ void create_ship() {
 	ship.fill_colour.b = 0;
 
 	//outline colour is red
-	ship.outline_colour.r = 232/255;
-	ship.outline_colour.g = 72/255;
-	ship.outline_colour.b = 85/255;
-	
-	ship.bounds.origin.x=0;
+	ship.outline_colour.r = 232 / 255;
+	ship.outline_colour.g = 72 / 255;
+	ship.outline_colour.b = 85 / 255;
+
+	ship.bounds.origin.x = 0;
 	ship.bounds.origin.y = 0;
 	ship.bounds.radius = 0.5;
 
@@ -215,9 +251,9 @@ void create_wall() {
 
 	wall.number_of_points = 4;
 
-	wall.fill_colour.r = 64/255;
-	wall.fill_colour.g = 63/255;
-	wall.fill_colour.b = 76/255;
+	wall.fill_colour.r = 64 / 255;
+	wall.fill_colour.g = 63 / 255;
+	wall.fill_colour.b = 76 / 255;
 
 	wall.outline_colour.r = 49 / 255;
 	wall.outline_colour.g = 133 / 255;
@@ -238,26 +274,6 @@ void setup_game() {
 
 	create_ship();
 	create_wall();
-}
-
-
-bool detect_overlap(circle c1, circle c2)
-{
-	const float dx = c2.origin.x - c1.origin.y;
-	const float dy = c2.origin.x - c1.origin.y;
-	const float combine_radius = c1.radius + c2.radius;
-
-	if ((combine_radius * combine_radius) <= (dx * dx) + (dy * dy))
-	{
-		return false;
-	}
-
-	return true;
-}
-
-void end_app()
-{
-	exit(EXIT_SUCCESS);
 }
 
 void render_string(float x, float y, void* font, const char* string)
@@ -283,45 +299,6 @@ void render_string(float x, float y, void* font, const char* string)
 	glPopMatrix();
 
 	glMatrixMode(GL_MODELVIEW);
-}
-
-
-void draw_circle_cartesian(float r, int n)
-{
-	float x, y;
-
-	glLineWidth(2.0);
-	glBegin(GL_LINE_LOOP);
-
-	n /= 2;
-
-	for (int i = 0; i < n; i++)
-	{
-		x = ((i / (float)n - 0.5) * 2.0) * r;
-		y = sqrt(r * r - x * x);
-		glVertex2f(x, y);
-	}
-
-	for (int i = n; i > 0; i--)
-	{
-		x = (i / (float)n - 0.5) * 2.0 * r;
-		y = -sqrt(r * r - x * x);
-		glVertex2f(x, y);
-	}
-
-	glEnd();
-}
-
-void render_circle(circle circle1, float cr, float cg, float cb)
-{
-	glPushMatrix();
-	glLoadIdentity();
-	glTranslatef(circle1.origin.x, circle1.origin.y, 0.0f);
-	glScalef(circle1.radius, circle1.radius, 1.0f);
-	glColor3f(cr, cg, cb);
-	// draw a unit circle
-	draw_circle_cartesian(1.0, 64);
-	glPopMatrix();
 }
 
 void render_ship() {
@@ -391,10 +368,15 @@ void render_ship() {
 	glVertex3f(0, 0.1, 0.0);
 	glEnd();
 
-	
+
 	glPopMatrix();
 
-	render_circle(ship.bounds, 0, 0, 1);
+	circle_t c;
+	c.pos_x = ship.bounds.origin.x;
+	c.pos_y = ship.bounds.origin.y;
+	c.radius = ship.bounds.radius;
+
+	//render_circle(c, 0, 0, 1);
 }
 
 void render_wall() {
@@ -443,67 +425,95 @@ void render_wall() {
 	glPopMatrix();
 }
 
+int detect_overlap(circle_t c1, circle_t c2)
+{
+	const float dx = c2.pos_x - c1.pos_x;
+	const float dy = c2.pos_y - c1.pos_y;
+	const float radii = c1.radius + c2.radius;
+
+	if ((radii * radii) <= (dx * dx) + (dy * dy))
+	{
+		return 0;
+	}
+
+	return 1;
+}
+
+// See circle.c from Week 2 material
+void draw_circle_cartesian(float r, int n)
+{
+	float x, y;
+
+	glLineWidth(2.0);
+	glBegin(GL_LINE_LOOP);
+
+	n /= 2;
+
+	for (int i = 0; i < n; i++)
+	{
+		x = ((i / (float)n - 0.5) * 2.0) * r;
+		y = sqrt(r * r - x * x);
+		glVertex2f(x, y);
+	}
+
+	for (int i = n; i > 0; i--)
+	{
+		x = (i / (float)n - 0.5) * 2.0 * r;
+		y = -sqrt(r * r - x * x);
+		glVertex2f(x, y);
+	}
+
+	glEnd();
+}
+
+void render_circle(circle_t circle, float cr, float cg, float cb)
+{
+	glPushMatrix();
+	glLoadIdentity();
+	glTranslatef(circle.pos_x, circle.pos_y, 0.0f);
+	glScalef(circle.radius, circle.radius, 1.0f);
+	glColor3f(cr, cg, cb);
+	// draw a unit circle
+	draw_circle_cartesian(1.0, 64);
+	glPopMatrix();
+}
+
+void end_app()
+{
+	exit(EXIT_SUCCESS);
+}
 
 void render_frame()
 {
 	render_wall();
 	render_ship();
-	// arena
+	render_circle(g_rand_circles[4], 1.0f, 0.0f, 0.0f);
+	/*int is_main_collided = 0;
 
-	//dark blue
-	//glColor3f(0, 0.05, 0.09);
-	//glBegin(GL_POLYGON);
-	//glVertex3f(-1, -1, -1);
-	//glVertex3f(1, -1, -1);
-	//glVertex3f(1, 1, -1);
-	//glVertex3f(-1, 1, -1);
-	//glEnd();
+	for (int i = 0; i < 5; i++)
+	{
+		int is_collided = detect_overlap(g_user_circle, g_rand_circles[i]);
 
-	//player
-	//glColor3f(0.9, 0.1, 0.9);
-	//glBegin(GL_POLYGON);
-	//glVertex3f(-0.1, -0.1, -1);
-	//glVertex3f(0, 0, -1);
-	//glVertex3f(0, 0.1, -1);
-	//glEnd();
+		if (is_collided > 0)
+		{
+			render_circle(g_rand_circles[i], 1.0f, 0.0f, 0.0f);
+		}
+		else
+		{
+			render_circle(g_rand_circles[i], 0.0f, 1.0f, 0.0f);
+		}
 
-	//glColor3f(0.9, 0.1, 0.9);
-	//glBegin(GL_POLYGON);
-	//glVertex3f(0, 0.1, -1);
-	//glVertex3f(0.1, -0.1, -1);
-	//glVertex3f(0, 0, -1);
-	//glEnd();
+		is_main_collided += is_collided;
+	}
 
-	//lec3();
-
-	//glVertex3f(-0.1, -0.1, -1);
-	
-	
-
-	//// Red quad
-	//glColor3f(1.0, 0.0, 0.0);
-	//glBegin(GL_POLYGON);
-	//glVertex3f(-0.5, -0.5, -0.5);
-	//glVertex3f(0.5, -0.5, -0.5);
-	//glVertex3f(0.5, 0.5, -0.5);
-	//glVertex3f(-0.5, 0.5, -0.5);
-	//glEnd();
-
-	//// Green quad
-	//glColor3f(0.0, 1.0, 0.0);
-	//glBegin(GL_POLYGON);
-	//glVertex3f(-0.25, -0.25, -0.75);
-	//glVertex3f(0.75, -0.25, -0.75);
-	//glVertex3f(0.75, 0.75, -0.75);
-	//glVertex3f(-0.25, 0.75, -0.75);
-	//glEnd();
-
-	//glColor3f(1.0, 1.0, 1.0);
-	//// render our string in center of window
-	//render_string(g_mainwin.width / 2.0, g_mainwin.height / 2.0, GLUT_BITMAP_TIMES_ROMAN_24, "The quick brown fox jumps");
-	//render_string(g_mainwin.width / 2.0, (g_mainwin.height / 2.0) - 25, GLUT_BITMAP_TIMES_ROMAN_24, "over the lazy dog");
-
-
+	if (is_main_collided > 0)
+	{
+		render_circle(g_user_circle, 1.0f, 0.0f, 0.0f);
+	}
+	else
+	{
+		render_circle(g_user_circle, 0.0f, 1.0f, 0.0f);
+	}*/
 }
 
 void on_display()
@@ -564,6 +574,13 @@ void on_mouse_button(int button, int state, int x, int y)
 
 void on_mouse_move(int x, int y)
 {
+	// map between screen coordinates to our current world size
+	// HINT: an additional step is needed to do this mapping correctly :)
+	// for students to figure out (if needed)
+	//float mx = map(x, 0.0, g_mainwin.width, -world_size / 2.0, world_size / 2.0);
+	//float my = map(y, 0.0, g_mainwin.height, -world_size / 2.0, world_size / 2.0);
+	//g_user_circle.pos_x = mx;
+	//g_user_circle.pos_y = -my;
 }
 
 void on_mouse_drag(int x, int y)
@@ -575,6 +592,7 @@ void on_reshape(int w, int h)
 	g_mainwin.width = w;
 	g_mainwin.height = h;
 
+	const float half_world_size = world_size;
 
 	glViewport(0, 0, w, h);
 
@@ -583,12 +601,12 @@ void on_reshape(int w, int h)
 	if (w <= h)
 	{
 		float aspect = (float)h / (float)w;
-		glOrtho(-1.0, 1.0, -1.0 * aspect, 1.0 * aspect, -1.0, 1.0);
+		glOrtho(-half_world_size, half_world_size, -half_world_size * aspect, half_world_size * aspect, -half_world_size, half_world_size);
 	}
 	else
 	{
 		float aspect = (float)w / (float)h;
-		glOrtho(-1.0 * aspect, 1.0 * aspect, -1.0, 1.0, -1.0, 1.0);
+		glOrtho(-half_world_size * aspect, half_world_size * aspect, -half_world_size, half_world_size, -half_world_size, half_world_size);
 	}
 
 	glMatrixMode(GL_MODELVIEW);
@@ -630,6 +648,15 @@ void init_app(int* argcp, char** argv, window_t* mainwinp)
 
 void run_app()
 {
+	g_rand_circles[0] = init_circle(10.0f, 10.0f, 5.0f);
+	g_rand_circles[1] = init_circle(-10.0f, 10.0f, 4.0f);
+	g_rand_circles[2] = init_circle(-10.0f, -10.0f, 3.0f);
+	g_rand_circles[3] = init_circle(10.0f, -10.0f, 2.0f);
+	g_rand_circles[4] = init_circle(0.0f, 0.0f, 0.1f);
+	g_user_circle = init_circle(0.0f, 0.0f, 3.0f);
+
+
+	setup_game();
 	glutMainLoop();
 }
 
@@ -644,7 +671,6 @@ int main(int argc, char** argv)
 {
 	load_config(&argc, argv, &g_mainwin);
 	init_app(&argc, argv, &g_mainwin);
-	setup_game();
 	run_app();
 	return (EXIT_SUCCESS);
 }
