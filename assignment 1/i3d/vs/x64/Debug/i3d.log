@@ -1,0 +1,24 @@
+﻿  main.c
+C:\Users\McLovin\Documents\3d graphics class\assignment 1\i3d\src\main.c(116,17): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\McLovin\Documents\3d graphics class\assignment 1\i3d\src\main.c(117,17): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\McLovin\Documents\3d graphics class\assignment 1\i3d\src\main.c(125,18): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\McLovin\Documents\3d graphics class\assignment 1\i3d\src\main.c(133,16): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\McLovin\Documents\3d graphics class\assignment 1\i3d\src\main.c(141,16): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\McLovin\Documents\3d graphics class\assignment 1\i3d\src\main.c(148,16): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\McLovin\Documents\3d graphics class\assignment 1\i3d\src\main.c(149,17): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\McLovin\Documents\3d graphics class\assignment 1\i3d\src\main.c(157,18): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\McLovin\Documents\3d graphics class\assignment 1\i3d\src\main.c(167,26): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\McLovin\Documents\3d graphics class\assignment 1\i3d\src\main.c(168,26): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\McLovin\Documents\3d graphics class\assignment 1\i3d\src\main.c(178,26): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\McLovin\Documents\3d graphics class\assignment 1\i3d\src\main.c(300,39): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\McLovin\Documents\3d graphics class\assignment 1\i3d\src\main.c(301,11): warning C4013: 'sqrt' undefined; assuming extern returning int
+C:\Users\McLovin\Documents\3d graphics class\assignment 1\i3d\src\main.c(301,26): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\McLovin\Documents\3d graphics class\assignment 1\i3d\src\main.c(307,37): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\McLovin\Documents\3d graphics class\assignment 1\i3d\src\main.c(308,27): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\McLovin\Documents\3d graphics class\assignment 1\i3d\src\main.c(391,19): warning C4305: 'function': truncation from 'double' to 'GLfloat'
+C:\Users\McLovin\Documents\3d graphics class\assignment 1\i3d\src\main.c(405,15): warning C4305: 'function': truncation from 'double' to 'GLfloat'
+C:\Users\McLovin\Documents\3d graphics class\assignment 1\i3d\src\main.c(405,20): warning C4305: 'function': truncation from 'double' to 'GLfloat'
+C:\Users\McLovin\Documents\3d graphics class\assignment 1\i3d\src\main.c(405,25): warning C4305: 'function': truncation from 'double' to 'GLfloat'
+C:\Users\McLovin\Documents\3d graphics class\assignment 1\i3d\src\main.c(614,28): warning C4113: 'void (__cdecl *)()' differs in parameter lists from 'void (__cdecl *)(void)'
+C:\Users\McLovin\Documents\3d graphics class\assignment 1\i3d\src\main.c(628,22): warning C4113: 'void (__cdecl *)()' differs in parameter lists from 'void (__cdecl *)(void)'
+  i3d.vcxproj -> C:\Users\McLovin\Documents\3d graphics class\assignment 1\i3d\i3d64dbg.exe
