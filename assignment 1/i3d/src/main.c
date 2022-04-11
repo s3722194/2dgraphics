@@ -78,6 +78,12 @@ typedef struct Player {
 	bool move_down;
 	bool turn_left;
 	bool turn_right;
+
+	//track which wall its close to
+	bool top_wall;
+	bool bottom_wall;
+	bool right_wall;
+	bool left_wall;
 } player;
 
 typedef struct Asteroid {
@@ -290,14 +296,14 @@ void create_ship() {
 	//colour of the ship
 
 	//fill colouris black
-	ship.fill_colour.r = 0.3;
-	ship.fill_colour.g = 0.3;
-	ship.fill_colour.b = 0;
+	ship.fill_colour.r = 0.325;
+	ship.fill_colour.g = 0.1098;
+	ship.fill_colour.b = 0.70196;
 
-	//outline colour is red
-	ship.outline_colour.r = 232 / 255;
-	ship.outline_colour.g = 72 / 255;
-	ship.outline_colour.b = 85 / 255;
+	//outline colour is light purple
+	ship.outline_colour.r = 0.6666;
+	ship.outline_colour.g = 0.482;
+	ship.outline_colour.b = 0.7647;
 
 	ship.bounds.origin.x = 0;
 	ship.bounds.origin.y = 0;
@@ -309,6 +315,11 @@ void create_ship() {
 	ship.turn_right = false;
 
 	ship.speed = 0.001;
+
+	ship.bottom_wall = false;
+	ship.top_wall = false;
+	ship.right_wall = false;
+	ship.left_wall = false;
 
 }
 
@@ -348,22 +359,13 @@ void create_wall() {
 
 	wall.number_of_points = 4;
 
-	wall.fill_colour.r = 64 / 255;
-	wall.fill_colour.g = 63 / 255;
-	wall.fill_colour.b = 76 / 255;
+	wall.fill_colour.r = 0.8588;
+	wall.fill_colour.g = 0.658;
+	wall.fill_colour.b = 0.6745;
 
 	wall.outline_colour.r = 49 / 255;
 	wall.outline_colour.g = 133 / 255;
 	wall.outline_colour.b = 252 / 255;
-
-
-	/*	glColor3f(0, 0.05, 0.09);
-	glBegin(GL_POLYGON);
-	glVertex3f(-1, -1, -1);
-	glVertex3f(1, -1, -1);
-	glVertex3f(1, 1, -1);
-	glVertex3f(-1, 1, -1);
-	glEnd();*/
 
 }
 
@@ -502,27 +504,60 @@ void render_wall() {
 	glVertex3f(-1, 1, 0);*/
 	glEnd();
 
+	//bottom wall
 	glBegin(GL_LINES);
-	glColor3f(1, 0, 1);
+	if (ship.bottom_wall) 
+	{
+		glColor3f(1, 0, 0);
+	}
+	else
+	{
+		glColor3f(1, 0, 1);
+	}
+	
 	//glLineWidth(200.0);
 	glVertex3f(wall.points[0].x, wall.points[0].y, wall.points[0].z);
 	glVertex3f(wall.points[1].x, wall.points[1].y, wall.points[1].z);
 	glEnd();
 
+	//right wall
 	glBegin(GL_LINES);
-	glColor3f(1, 0, 1);
+	if (ship.right_wall)
+	{
+		glColor3f(1, 0, 0);
+	}
+	else
+	{
+		glColor3f(1, 0, 1);
+	}
 	glVertex3f(wall.points[2].x, wall.points[2].y, wall.points[2].z);
 	glVertex3f(wall.points[1].x, wall.points[1].y, wall.points[1].z);
 	glEnd();
 
+	//top wall
 	glBegin(GL_LINES);
-	glColor3f(1, 0, 1);
+	if (ship.top_wall)
+	{
+		glColor3f(1, 0, 0);
+	}
+	else
+	{
+		glColor3f(1, 0, 1);
+	}
 	glVertex3f(wall.points[2].x, wall.points[2].y, wall.points[2].z);
 	glVertex3f(wall.points[3].x, wall.points[3].y, wall.points[3].z);
 	glEnd();
 
+	//left wall
 	glBegin(GL_LINES);
-	glColor3f(1, 0, 1);
+	if (ship.left_wall)
+	{
+		glColor3f(1, 0, 0);
+	}
+	else
+	{
+		glColor3f(1, 0, 1);
+	}
 	glVertex3f(wall.points[0].x, wall.points[0].y, wall.points[0].z);
 	glVertex3f(wall.points[3].x, wall.points[3].y, wall.points[3].z);
 	glEnd();
@@ -594,32 +629,7 @@ void render_frame()
 	render_wall();
 	render_ship();
 	render_circle(g_rand_circles[4], 1.0f, 0.0f, 0.0f);
-	/*int is_main_collided = 0;
-
-	for (int i = 0; i < 5; i++)
-	{
-		int is_collided = detect_overlap(g_user_circle, g_rand_circles[i]);
-
-		if (is_collided > 0)
-		{
-			render_circle(g_rand_circles[i], 1.0f, 0.0f, 0.0f);
-		}
-		else
-		{
-			render_circle(g_rand_circles[i], 0.0f, 1.0f, 0.0f);
-		}
-
-		is_main_collided += is_collided;
-	}
-
-	if (is_main_collided > 0)
-	{
-		render_circle(g_user_circle, 1.0f, 0.0f, 0.0f);
-	}
-	else
-	{
-		render_circle(g_user_circle, 0.0f, 1.0f, 0.0f);
-	}*/
+	
 }
 
 void on_display()
@@ -670,6 +680,86 @@ void ship_movement() {
 	}
 }
 
+void reset_player() {
+	ship.transform.rotation = 0;
+
+	ship.transform.position.x = 0;
+	ship.transform.position.y = 0;
+
+	ship.transform.position.x = 0;
+	ship.bottom_wall = false;
+	ship.top_wall = false;
+	ship.right_wall = false;
+	ship.left_wall = false;
+
+}
+
+void check_wall(vector2 point) {
+
+
+	if (point.x < -0.9) {
+		ship.left_wall = true;
+	}
+
+	if (point.x > 0.8) {
+		ship.right_wall = true;
+	}
+
+	if (point.y > 0.9) {
+		ship.top_wall = true;
+	}
+
+	if (point.y < -0.9) {
+		ship.bottom_wall = true;
+	}
+
+	if (point.y < -1) {
+		reset_player();
+	}
+
+	if (point.y > 1) {
+		reset_player();
+	}
+
+	if (point.x > 0.95) {
+		reset_player();
+	}
+
+	if (point.x < -1) {
+		reset_player();
+	}
+}
+
+void near_wall() {
+
+	ship.bottom_wall = false;
+	ship.top_wall = false;
+	ship.right_wall = false;
+	ship.left_wall = false;
+
+	//outer most points of the triangle ship
+	vector2 point1, point2, point3;
+
+	point1.x = ship.transform.position.x + ship.points[0].x;
+	point1.y = ship.transform.position.y + ship.points[0].y;
+
+	point2.x = ship.transform.position.x + ship.points[2].x;
+	point2.y = ship.transform.position.y + ship.points[2].y;
+
+	point3.x = ship.transform.position.x + ship.points[3].x;
+	point3.y = ship.transform.position.y + ship.points[3].y;
+
+	check_wall(point1);
+	check_wall(point2);
+	check_wall(point3);
+
+}
+
+
+
+
+
+
 
 void update_game_state()
 {
@@ -677,13 +767,9 @@ void update_game_state()
 	total_time = glutGet(GLUT_ELAPSED_TIME); 
 
 	ship_movement();
-	
+	near_wall();
 
 }
-
-
-
-
 
 void on_idle()
 {
@@ -753,13 +839,7 @@ void on_mouse_button(int button, int state, int x, int y)
 
 void on_mouse_move(int x, int y)
 {
-	// map between screen coordinates to our current world size
-	// HINT: an additional step is needed to do this mapping correctly :)
-	// for students to figure out (if needed)
-	//float mx = map(x, 0.0, g_mainwin.width, -world_size / 2.0, world_size / 2.0);
-	//float my = map(y, 0.0, g_mainwin.height, -world_size / 2.0, world_size / 2.0);
-	//g_user_circle.pos_x = mx;
-	//g_user_circle.pos_y = -my;
+
 }
 
 void on_mouse_drag(int x, int y)
