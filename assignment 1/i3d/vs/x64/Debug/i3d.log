@@ -1,24 +1,26 @@
 ﻿  main.c
-C:\Users\McLovin\Documents\3d graphics class\github\2dgraphics\assignment 1\i3d\src\main.c(157,17): warning C4305: '=': truncation from 'double' to 'float'
-C:\Users\McLovin\Documents\3d graphics class\github\2dgraphics\assignment 1\i3d\src\main.c(158,17): warning C4305: '=': truncation from 'double' to 'float'
-C:\Users\McLovin\Documents\3d graphics class\github\2dgraphics\assignment 1\i3d\src\main.c(166,18): warning C4305: '=': truncation from 'double' to 'float'
-C:\Users\McLovin\Documents\3d graphics class\github\2dgraphics\assignment 1\i3d\src\main.c(174,16): warning C4305: '=': truncation from 'double' to 'float'
-C:\Users\McLovin\Documents\3d graphics class\github\2dgraphics\assignment 1\i3d\src\main.c(182,16): warning C4305: '=': truncation from 'double' to 'float'
-C:\Users\McLovin\Documents\3d graphics class\github\2dgraphics\assignment 1\i3d\src\main.c(189,16): warning C4305: '=': truncation from 'double' to 'float'
-C:\Users\McLovin\Documents\3d graphics class\github\2dgraphics\assignment 1\i3d\src\main.c(190,17): warning C4305: '=': truncation from 'double' to 'float'
-C:\Users\McLovin\Documents\3d graphics class\github\2dgraphics\assignment 1\i3d\src\main.c(198,18): warning C4305: '=': truncation from 'double' to 'float'
-C:\Users\McLovin\Documents\3d graphics class\github\2dgraphics\assignment 1\i3d\src\main.c(208,26): warning C4305: '=': truncation from 'double' to 'float'
-C:\Users\McLovin\Documents\3d graphics class\github\2dgraphics\assignment 1\i3d\src\main.c(209,26): warning C4305: '=': truncation from 'double' to 'float'
-C:\Users\McLovin\Documents\3d graphics class\github\2dgraphics\assignment 1\i3d\src\main.c(383,19): warning C4305: 'function': truncation from 'double' to 'GLfloat'
-C:\Users\McLovin\Documents\3d graphics class\github\2dgraphics\assignment 1\i3d\src\main.c(404,15): warning C4305: 'function': truncation from 'double' to 'GLfloat'
-C:\Users\McLovin\Documents\3d graphics class\github\2dgraphics\assignment 1\i3d\src\main.c(404,20): warning C4305: 'function': truncation from 'double' to 'GLfloat'
-C:\Users\McLovin\Documents\3d graphics class\github\2dgraphics\assignment 1\i3d\src\main.c(404,25): warning C4305: 'function': truncation from 'double' to 'GLfloat'
-C:\Users\McLovin\Documents\3d graphics class\github\2dgraphics\assignment 1\i3d\src\main.c(471,39): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\McLovin\Documents\3d graphics class\github\2dgraphics\assignment 1\i3d\src\main.c(472,26): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\McLovin\Documents\3d graphics class\github\2dgraphics\assignment 1\i3d\src\main.c(478,37): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\McLovin\Documents\3d graphics class\github\2dgraphics\assignment 1\i3d\src\main.c(479,27): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\McLovin\Documents\3d graphics class\github\2dgraphics\assignment 1\i3d\src\main.c(556,37): warning C4305: '+=': truncation from 'double' to 'float'
-C:\Users\McLovin\Documents\3d graphics class\github\2dgraphics\assignment 1\i3d\src\main.c(559,37): warning C4305: '-=': truncation from 'double' to 'float'
-C:\Users\McLovin\Documents\3d graphics class\github\2dgraphics\assignment 1\i3d\src\main.c(695,28): warning C4113: 'void (__cdecl *)()' differs in parameter lists from 'void (__cdecl *)(void)'
-C:\Users\McLovin\Documents\3d graphics class\github\2dgraphics\assignment 1\i3d\src\main.c(709,22): warning C4113: 'void (__cdecl *)()' differs in parameter lists from 'void (__cdecl *)(void)'
+C:\Users\McLovin\Documents\3d graphics class\github\2dgraphics\assignment 1\i3d\src\main.c(159,17): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\McLovin\Documents\3d graphics class\github\2dgraphics\assignment 1\i3d\src\main.c(160,17): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\McLovin\Documents\3d graphics class\github\2dgraphics\assignment 1\i3d\src\main.c(168,18): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\McLovin\Documents\3d graphics class\github\2dgraphics\assignment 1\i3d\src\main.c(176,16): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\McLovin\Documents\3d graphics class\github\2dgraphics\assignment 1\i3d\src\main.c(184,16): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\McLovin\Documents\3d graphics class\github\2dgraphics\assignment 1\i3d\src\main.c(191,16): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\McLovin\Documents\3d graphics class\github\2dgraphics\assignment 1\i3d\src\main.c(192,17): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\McLovin\Documents\3d graphics class\github\2dgraphics\assignment 1\i3d\src\main.c(200,18): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\McLovin\Documents\3d graphics class\github\2dgraphics\assignment 1\i3d\src\main.c(210,26): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\McLovin\Documents\3d graphics class\github\2dgraphics\assignment 1\i3d\src\main.c(211,26): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\McLovin\Documents\3d graphics class\github\2dgraphics\assignment 1\i3d\src\main.c(387,19): warning C4305: 'function': truncation from 'double' to 'GLfloat'
+C:\Users\McLovin\Documents\3d graphics class\github\2dgraphics\assignment 1\i3d\src\main.c(408,15): warning C4305: 'function': truncation from 'double' to 'GLfloat'
+C:\Users\McLovin\Documents\3d graphics class\github\2dgraphics\assignment 1\i3d\src\main.c(408,20): warning C4305: 'function': truncation from 'double' to 'GLfloat'
+C:\Users\McLovin\Documents\3d graphics class\github\2dgraphics\assignment 1\i3d\src\main.c(408,25): warning C4305: 'function': truncation from 'double' to 'GLfloat'
+C:\Users\McLovin\Documents\3d graphics class\github\2dgraphics\assignment 1\i3d\src\main.c(475,39): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\McLovin\Documents\3d graphics class\github\2dgraphics\assignment 1\i3d\src\main.c(476,26): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\McLovin\Documents\3d graphics class\github\2dgraphics\assignment 1\i3d\src\main.c(482,37): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\McLovin\Documents\3d graphics class\github\2dgraphics\assignment 1\i3d\src\main.c(483,27): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\McLovin\Documents\3d graphics class\github\2dgraphics\assignment 1\i3d\src\main.c(564,37): warning C4305: '+=': truncation from 'double' to 'float'
+C:\Users\McLovin\Documents\3d graphics class\github\2dgraphics\assignment 1\i3d\src\main.c(567,37): warning C4305: '-=': truncation from 'double' to 'float'
+C:\Users\McLovin\Documents\3d graphics class\github\2dgraphics\assignment 1\i3d\src\main.c(600,40): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+C:\Users\McLovin\Documents\3d graphics class\github\2dgraphics\assignment 1\i3d\src\main.c(746,28): warning C4113: 'void (__cdecl *)()' differs in parameter lists from 'void (__cdecl *)(void)'
+C:\Users\McLovin\Documents\3d graphics class\github\2dgraphics\assignment 1\i3d\src\main.c(760,22): warning C4113: 'void (__cdecl *)()' differs in parameter lists from 'void (__cdecl *)(void)'
+C:\Users\McLovin\Documents\3d graphics class\github\2dgraphics\assignment 1\i3d\src\main.c(608): warning C4716: 'vector_normalise': must return a value
   i3d.vcxproj -> C:\Users\McLovin\Documents\3d graphics class\github\2dgraphics\assignment 1\i3d\i3d64dbg.exe

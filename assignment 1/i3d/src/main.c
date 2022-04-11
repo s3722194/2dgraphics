@@ -122,6 +122,73 @@ wall2d wall;
 int total_time;
 int delta_time;
 
+
+vector2 vector_addition(vector2 v1, vector2 v2) {
+	vector2 answer;
+	answer.x = v1.x + v2.x;
+	answer.y = v1.y + v2.y;
+	return answer;
+}
+
+vector2 vector_subtraction(vector2 v1, vector2 v2) {
+	vector2 answer;
+	answer.x = v1.x - v2.x;
+	answer.y = v1.y - v2.y;
+	return answer;
+}
+
+vector2 vector_scalar(vector2 v1, float scalar) {
+	vector2 answer;
+	answer.x = v1.x * scalar;
+	answer.y = v1.y * scalar;
+	return answer;
+}
+
+float vector_length(vector2 v1) {
+	return sqrt(v1.x * v1.x + v1.y * v1.y);
+}
+
+vector2 vector_normalise(vector2 v1) {
+	float length = vector_length(v1);
+	vector2 answer;
+	if (length != 0)
+	{
+		answer.x = v1.x / length;
+		answer.y = v1.y / length;
+	}
+	else
+	{
+		// not sure if this is the right this to do when its zero
+		//test to see
+		answer.x = 1;
+		answer.y = 1;
+	}
+	return answer;
+}
+
+// since this is in 2d but we still need to provide the z value
+//the z is irrevelant for culautions and only there for depth reasons
+vector2 vector3_to_vector2(vector3 v1) {
+	vector2 answer;
+	answer.x = v1.x;
+	answer.y = v1.y;
+	return answer;
+}
+
+float dot_product(vector2 v1, vector2 v2) {
+	return v1.x * v2.x + v1.y * v2.y;
+}
+
+
+float vector_angle_rad(vector2 v1, vector2 v2) {
+	return acos(dot_product(v1, v2) / (vector_length(v1) * vector_length(v2)));
+}
+
+float angle_to_rad(float a) {
+	return a * (180 / M_PI);
+}
+
+
 float map(float x, float in_min, float in_max, float out_min, float out_max)
 {
 	return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
@@ -574,6 +641,7 @@ void update_game_state()
 	}
 
 }
+
 
 
 
