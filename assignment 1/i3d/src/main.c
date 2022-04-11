@@ -128,6 +128,7 @@ typedef struct Collection_Asteroid {
 	float lauch_radius;
 	bool wave_finished;
 	bool create_more_asteroids;
+	int max_wave;
 
 
 } collection_of_asteroids;
@@ -371,6 +372,7 @@ void create_asteroid() {
 	asteroids.wave_finished = false;
 	asteroids.number_of_asteroids = 0;
 	asteroids.create_more_asteroids = true;
+	asteroids.max_wave = 10;
 }
 
 void create_wall() {
@@ -564,19 +566,12 @@ void render_bullets() {
 			c.pos_x = bullets.bullets[i].transform.position.x;
 			c.pos_y = bullets.bullets[i].transform.position.y;
 			render_circle(c, 0, 0.8, 0);
-			//glBegin(GL_POINT);
-			//glColor3f(0, 1, 0);
-			////glVertex3f(bullets.bullets[i].transform.position.x, bullets.bullets[i].transform.position.y, bullets.bullets[i].transform.position.z);
-
-			//glVertex3f(0.5, 0.5, 1);
-			//glEnd();
 
 			glPopMatrix();
 
 		}
 	}
 
-	
 }
 
 void render_wall() {
@@ -848,11 +843,13 @@ void update_astroids() {
 	if (asteroids.create_more_asteroids == true) {
 		asteroids.create_more_asteroids = false;
 		for (int i = 0; i < asteroids.wave; i++) {
-			srand(time(0));
+			srand(time(0)+i);
 			printf("create asteroid!\n");
 			asteroid new_astreroid;
 			int max_number = 360;
 			int minimum_number = 0;
+			rand();
+			rand();
 			int degree = rand() % (max_number + 1 - minimum_number) + minimum_number;
 			//printf("degree %f\n", degree);
 			float rad = degree_to_rad(degree);
@@ -913,12 +910,21 @@ void update_astroids() {
 					asteroids.asteroids[j - 1] = asteroids.asteroids[j];
 				}
 				asteroids.number_of_asteroids -= 1;
+
+				if (asteroids.number_of_asteroids == 0) {
+					if (asteroids.wave != asteroids.max_wave) {
+						asteroids.wave += 1;
+					}
+					asteroids.create_more_asteroids = true;
+				}
 				if (i != 0) {
 					i -= 1;
 				}
 				else {
 					return;
 				}
+
+				
 			}
 		}
 	}
