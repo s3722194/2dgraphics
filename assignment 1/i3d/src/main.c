@@ -117,6 +117,7 @@ typedef struct Collection_Bullets {
 	bool active;
 	bool add_new_bullet;
 	float fire_rate;
+	int time_between_bullets;
 	
 } collection_of_bullets;
 
@@ -346,8 +347,9 @@ void create_ship() {
 void create_bullets() {
 	bullets.active = false;
 	bullets.add_new_bullet = false;
-	bullets.fire_rate = 1;
+	bullets.fire_rate = 500;
 	bullets.number_of_bullets = 0;
+	bullets.time_between_bullets = 0;
 	
 	
 }
@@ -837,15 +839,17 @@ void update_bullets()
 	{
 		if (bullets.add_new_bullet == true) 
 		{
-			if (bullets.number_of_bullets < MAX_BULLETS) 
+			bullets.time_between_bullets += delta_time;
+			if (bullets.number_of_bullets < MAX_BULLETS && bullets.time_between_bullets>bullets.fire_rate) 
 			{
 				printf("create new bullet\n");
 				bullet new_bullet;
-				new_bullet.speed = 0.0001;
+				new_bullet.speed = 0.001;
 				new_bullet.transform = ship.transform;
 				new_bullet.active = true;
 				bullets.bullets[bullets.number_of_bullets] = new_bullet;
 				bullets.number_of_bullets += 1;
+				bullets.time_between_bullets = 0;
 			}
 		}
 		if (bullets.number_of_bullets > 0) {
@@ -877,7 +881,7 @@ void update_game_state()
 {
 	delta_time = glutGet(GLUT_ELAPSED_TIME) - total_time;
 	total_time = glutGet(GLUT_ELAPSED_TIME);
-	printf("delta: %f", delta_time);
+	
 
 	ship_movement();
 	near_wall();
@@ -958,6 +962,7 @@ void on_mouse_button(int button, int state, int x, int y)
 		}
 		else {
 			bullets.add_new_bullet = true;
+			bullets.time_between_bullets = bullets.fire_rate;
 			printf("new bullets\n");
 		}
 		//bullets.add_new_bullet = true;
