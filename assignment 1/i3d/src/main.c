@@ -88,12 +88,12 @@ typedef struct Player {
 } player;
 
 typedef struct Asteroid {
-	//vector3 points[6];
-	int number_of_points;
 	transform2d transform;
-	circle bounds;
+	circle point;
 	colour outline_colour;
 	colour fill_colour;
+	float speed;
+	vector2 direction;
 } asteroid;
 
 
@@ -121,6 +121,17 @@ typedef struct Collection_Bullets {
 	
 } collection_of_bullets;
 
+typedef struct Collection_Asteroid {
+	int wave;
+	asteroid asteroids[20];
+	int number_of_asteroids;
+	float lauch_radius;
+	bool wave_finished;
+	bool create_more_asteroids;
+
+
+} collection_of_asteroids;
+
 
 typedef struct
 {
@@ -143,7 +154,7 @@ window_t g_mainwin;
 float world_size = 1.0f;
 
 player ship;
-asteroid ast;
+collection_of_asteroids asteroids;
 wall2d wall;
 int total_time;
 int delta_time;
@@ -355,7 +366,11 @@ void create_bullets() {
 }
 
 void create_asteroid() {
-
+	asteroids.lauch_radius = 1.5;
+	asteroids.wave = 1;
+	asteroids.wave_finished = false;
+	asteroids.number_of_asteroids = 0;
+	asteroids.create_more_asteroids = true;
 }
 
 void create_wall() {
@@ -405,8 +420,26 @@ void setup_game() {
 	create_ship();
 	create_wall();
 	create_bullets();
+	create_asteroid();
 	delta_time = 0;
 	total_time = 0;
+}
+
+void render_asteroids() {
+
+	if (asteroids.number_of_asteroids > 0) {
+		for (int i = 0; i < asteroids.number_of_asteroids; i++) {
+			glPushMatrix();
+			glLoadIdentity();
+			circle_t c;
+			c.pos_x = asteroids.asteroids[i].transform.position.x;
+			c.pos_y = asteroids.asteroids[i].transform.position.y;
+			c.radius = asteroids.asteroids[i].point.radius;
+
+			render_circle(c, 1, 0, 1);
+			glPopMatrix();
+		}
+	}
 }
 
 void render_string(float x, float y, void* font, const char* string)
@@ -677,6 +710,14 @@ void render_circle(circle_t circle, float cr, float cg, float cb)
 	glPopMatrix();
 }
 
+void render_launch_position() {
+	circle_t c;
+	c.radius = asteroids.lauch_radius;
+	c.pos_x = 0;
+	c.pos_y = 0;
+	render_circle(c, 1, 0, 0);
+}
+
 void end_app()
 {
 	exit(EXIT_SUCCESS);
@@ -687,7 +728,9 @@ void render_frame()
 	render_wall();
 	render_ship();
 	render_circle(g_rand_circles[4], 1.0f, 0.0f, 0.0f);
+	render_asteroids();
 	render_bullets();
+	render_launch_position();
 
 	//glPushMatrix();
 	//glLoadIdentity();
@@ -800,6 +843,83 @@ void check_wall(vector2 point) {
 	}
 }
 
+void update_astroids() {
+
+	if (asteroids.create_more_asteroids == true) {
+		asteroids.create_more_asteroids = false;
+		for (int i = 0; i < asteroids.wave; i++) {
+			printf("create asteroid!\n");
+			asteroid new_astreroid;
+			int max_number = 360;
+			int minimum_number = 0;
+			int degree = rand() % (max_number + 1 - minimum_number) + minimum_number;
+
+			float rad = degree_to_rad(degree);
+
+			vector2 normalised = rad_angle_to_direction(rad);
+
+			new_astreroid.transform.position.x = normalised.x*asteroids.lauch_radius;
+			new_astreroid.transform.position.y = normalised.y * asteroids.lauch_radius;
+			new_astreroid.transform.position.z = 1;
+
+			int min_speed = 10;
+			int max_speed = 100;
+			int speed = rand() % (max_speed + 1 - min_speed) + min_speed;
+			new_astreroid.speed = (float)speed / 100000.0f;
+			circle c;
+			c.origin.x = 0;
+			c.origin.y = 0;
+			int min_radius = 50;
+			int max_radius = 300;
+			int radius = rand() % (max_radius + 1 - min_radius) + min_radius;
+			c.radius = (float)radius / 1000;
+
+
+			new_astreroid.point = c;
+
+			vector2 ship_to_local_world = vector_subtraction(vector3_to_vector2(ship.transform.position),
+				vector3_to_vector2(new_astreroid.transform.position));
+			new_astreroid.direction = vector_normalise(ship_to_local_world);
+
+			asteroids.asteroids[asteroids.number_of_asteroids] = new_astreroid;
+			asteroids.number_of_asteroids += 1;
+		}
+		
+
+
+	}
+
+	if (asteroids.number_of_asteroids > 0) {
+		for (int i = 0; i < asteroids.number_of_asteroids; i++) {
+
+			vector2 normalised = asteroids.asteroids[i].direction;
+			asteroids.asteroids[i].transform.position.x += normalised.x * 0.0001 * delta_time;
+			asteroids.asteroids[i].transform.position.y += normalised.y * 0.0001 * delta_time;
+			//printf(" bullet normalise: %f , %f. angle: %f\n", normalised.x, normalised.y, rad);
+
+			float x = asteroids.asteroids[i].transform.position.x;
+			float y = asteroids.asteroids[i].transform.position.y;
+
+			
+			//printf("move astroid %f , %f\n" ,x,y);
+			//if a bullet it out of bounds
+			if (x < -1.5 || x>1.5 || y > 1.5 || y < -1.5) {
+				printf("delete astroid\n");
+				for (int j = i + 1; j < asteroids.number_of_asteroids; j++) {
+					asteroids.asteroids[j - 1] = asteroids.asteroids[j];
+				}
+				asteroids.number_of_asteroids -= 1;
+				if (i != 0) {
+					i -= 1;
+				}
+				else {
+					return;
+				}
+			}
+		}
+	}
+}
+
 void near_wall() {
 
 	ship.bottom_wall = false;
@@ -868,7 +988,13 @@ void update_bullets()
 				if (x < -1 || x>1 || y > 1 || y < -1) {
 					printf("delete bullet\n");
 					bullets = delete_bullet(bullets, i);
-					i -= 1;
+					if (i != 0) {
+						i -= 1;
+					}
+					else {
+						return;
+					}
+					
 				}
 
 			}
@@ -886,6 +1012,7 @@ void update_game_state()
 	ship_movement();
 	near_wall();
 	update_bullets();
+	update_astroids();
 
 }
 
