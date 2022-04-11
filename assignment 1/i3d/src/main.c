@@ -848,12 +848,13 @@ void update_astroids() {
 	if (asteroids.create_more_asteroids == true) {
 		asteroids.create_more_asteroids = false;
 		for (int i = 0; i < asteroids.wave; i++) {
+			srand(time(0));
 			printf("create asteroid!\n");
 			asteroid new_astreroid;
 			int max_number = 360;
 			int minimum_number = 0;
 			int degree = rand() % (max_number + 1 - minimum_number) + minimum_number;
-
+			//printf("degree %f\n", degree);
 			float rad = degree_to_rad(degree);
 
 			vector2 normalised = rad_angle_to_direction(rad);
@@ -866,16 +867,19 @@ void update_astroids() {
 			int max_speed = 100;
 			int speed = rand() % (max_speed + 1 - min_speed) + min_speed;
 			new_astreroid.speed = (float)speed / 100000.0f;
+			printf("speed %f\n", new_astreroid.speed);
 			circle c;
 			c.origin.x = 0;
 			c.origin.y = 0;
-			int min_radius = 50;
-			int max_radius = 300;
+			int min_radius = 5;
+			int max_radius = 100;
 			int radius = rand() % (max_radius + 1 - min_radius) + min_radius;
+			
 			c.radius = (float)radius / 1000;
-
+			
 
 			new_astreroid.point = c;
+			printf("radius %f\n", new_astreroid.point.radius);
 
 			vector2 ship_to_local_world = vector_subtraction(vector3_to_vector2(ship.transform.position),
 				vector3_to_vector2(new_astreroid.transform.position));
@@ -893,8 +897,8 @@ void update_astroids() {
 		for (int i = 0; i < asteroids.number_of_asteroids; i++) {
 
 			vector2 normalised = asteroids.asteroids[i].direction;
-			asteroids.asteroids[i].transform.position.x += normalised.x * 0.0001 * delta_time;
-			asteroids.asteroids[i].transform.position.y += normalised.y * 0.0001 * delta_time;
+			asteroids.asteroids[i].transform.position.x += normalised.x * asteroids.asteroids[i].speed * delta_time;
+			asteroids.asteroids[i].transform.position.y += normalised.y * asteroids.asteroids[i].speed * delta_time;
 			//printf(" bullet normalise: %f , %f. angle: %f\n", normalised.x, normalised.y, rad);
 
 			float x = asteroids.asteroids[i].transform.position.x;
