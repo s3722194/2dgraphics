@@ -23,6 +23,7 @@
 
 #define GAME_TITLE "Asteroid Arena"
 #define KEY_ESC 27
+#define MAX_BULLETS 20
 
 //typedef struct Windows
 //{
@@ -104,6 +105,22 @@ typedef struct Wall {
 	colour fill_colour;
 } wall2d;
 
+typedef struct Bullet {
+	transform2d transform;
+	bool active;
+	float speed;
+} bullet;
+
+typedef struct Collection_Bullets {
+	bullet bullets[20];
+	int number_of_bullets;
+	bool active;
+	bool add_new_bullet;
+	float fire_rate;
+	
+} collection_of_bullets;
+
+
 typedef struct
 {
 	int width, height, x_pos, y_pos;
@@ -117,6 +134,8 @@ typedef struct
 	float radius;
 } circle_t;
 
+void render_circle(circle_t circle, float cr, float cg, float cb);
+
 circle_t g_rand_circles[5];
 circle_t g_user_circle;
 window_t g_mainwin;
@@ -127,6 +146,7 @@ asteroid ast;
 wall2d wall;
 int total_time;
 int delta_time;
+collection_of_bullets bullets;
 
 
 vector2 vector_addition(vector2 v1, vector2 v2) {
@@ -323,6 +343,15 @@ void create_ship() {
 
 }
 
+void create_bullets() {
+	bullets.active = false;
+	bullets.add_new_bullet = false;
+	bullets.fire_rate = 1;
+	bullets.number_of_bullets = 0;
+	
+	
+}
+
 void create_asteroid() {
 
 }
@@ -363,9 +392,9 @@ void create_wall() {
 	wall.fill_colour.g = 0.658;
 	wall.fill_colour.b = 0.6745;
 
-	wall.outline_colour.r = 49 / 255;
-	wall.outline_colour.g = 133 / 255;
-	wall.outline_colour.b = 252 / 255;
+	wall.outline_colour.r = 0.192;
+	wall.outline_colour.g = 0.5176;
+	wall.outline_colour.b = 0.988;
 
 }
 
@@ -373,6 +402,7 @@ void setup_game() {
 
 	create_ship();
 	create_wall();
+	create_bullets();
 	delta_time = 0;
 	total_time = 0;
 }
@@ -467,22 +497,51 @@ void render_ship() {
 	glVertex3f(ship.points[2].x, ship.points[2].y, ship.points[2].z);
 	glEnd();
 
-	// this is just so we can see where its pointing
-	glBegin(GL_LINES);
-	glColor3f(1.0, 1.0, 0.0);
-	glVertex3f(0, 0, 0.0);
-	glVertex3f(0, 0.1, 0.0);
-	glEnd();
+	//// this is just so we can see where its pointing
+	//glBegin(GL_LINES);
+	//glColor3f(1.0, 1.0, 0.0);
+	//glVertex3f(0, 0, 0.0);
+	//glVertex3f(0, 0.1, 0.0);
+	//glEnd();
 
 
 	glPopMatrix();
 
-	circle_t c;
-	c.pos_x = ship.bounds.origin.x;
-	c.pos_y = ship.bounds.origin.y;
-	c.radius = ship.bounds.radius;
+	//circle_t c;
+	//c.pos_x = ship.bounds.origin.x;
+	//c.pos_y = ship.bounds.origin.y;
+	//c.radius = ship.bounds.radius;
 
 	//render_circle(c, 0, 0, 1);
+}
+
+void render_bullets() {
+
+	if (bullets.active == true && bullets.number_of_bullets!=0) 
+	{
+		for (int i = 0; i < bullets.number_of_bullets; i++) 
+		{
+			//printf("create bullets!!\n");
+			glPushMatrix();
+			glLoadIdentity();
+			circle_t c;
+			c.radius = 0.01;
+			c.pos_x = bullets.bullets[i].transform.position.x;
+			c.pos_y = bullets.bullets[i].transform.position.y;
+			render_circle(c, 0, 0.8, 0);
+			//glBegin(GL_POINT);
+			//glColor3f(0, 1, 0);
+			////glVertex3f(bullets.bullets[i].transform.position.x, bullets.bullets[i].transform.position.y, bullets.bullets[i].transform.position.z);
+
+			//glVertex3f(0.5, 0.5, 1);
+			//glEnd();
+
+			glPopMatrix();
+
+		}
+	}
+
+	
 }
 
 void render_wall() {
@@ -492,16 +551,13 @@ void render_wall() {
 
 	glBegin(GL_POLYGON);
 	//glColor3f(wall.fill_colour.r, wall.fill_colour.g, wall.fill_colour.b);
-	glColor3f(0.4, 0.4, 0.4);
-	//glLineWidth(200.0);
+	glColor3f(wall.fill_colour.r, wall.fill_colour.g, wall.fill_colour.b);
+	//glLineWidth(20.0);
 	glVertex3f(wall.points[0].x, wall.points[0].y, wall.points[0].z);
 	glVertex3f(wall.points[1].x, wall.points[1].y, wall.points[1].z);
 	glVertex3f(wall.points[2].x, wall.points[2].y, wall.points[2].z);
 	glVertex3f(wall.points[3].x, wall.points[3].y, wall.points[3].z);
-	/*glVertex3f(-1, -1, 0);
-	glVertex3f(1, -1, 0);
-	glVertex3f(1, 1, 0);
-	glVertex3f(-1, 1, 0);*/
+
 	glEnd();
 
 	//bottom wall
@@ -512,10 +568,10 @@ void render_wall() {
 	}
 	else
 	{
-		glColor3f(1, 0, 1);
+		glColor3f(wall.outline_colour.r, wall.outline_colour.g, wall.outline_colour.b);
 	}
-	
-	//glLineWidth(200.0);
+	//GLfloat gl
+	//glLineWidth((GLfloat)20.0);
 	glVertex3f(wall.points[0].x, wall.points[0].y, wall.points[0].z);
 	glVertex3f(wall.points[1].x, wall.points[1].y, wall.points[1].z);
 	glEnd();
@@ -528,7 +584,7 @@ void render_wall() {
 	}
 	else
 	{
-		glColor3f(1, 0, 1);
+		glColor3f(wall.outline_colour.r, wall.outline_colour.g, wall.outline_colour.b);
 	}
 	glVertex3f(wall.points[2].x, wall.points[2].y, wall.points[2].z);
 	glVertex3f(wall.points[1].x, wall.points[1].y, wall.points[1].z);
@@ -542,7 +598,7 @@ void render_wall() {
 	}
 	else
 	{
-		glColor3f(1, 0, 1);
+		glColor3f(wall.outline_colour.r, wall.outline_colour.g, wall.outline_colour.b);
 	}
 	glVertex3f(wall.points[2].x, wall.points[2].y, wall.points[2].z);
 	glVertex3f(wall.points[3].x, wall.points[3].y, wall.points[3].z);
@@ -556,7 +612,7 @@ void render_wall() {
 	}
 	else
 	{
-		glColor3f(1, 0, 1);
+		glColor3f(wall.outline_colour.r, wall.outline_colour.g, wall.outline_colour.b);
 	}
 	glVertex3f(wall.points[0].x, wall.points[0].y, wall.points[0].z);
 	glVertex3f(wall.points[3].x, wall.points[3].y, wall.points[3].z);
@@ -629,6 +685,18 @@ void render_frame()
 	render_wall();
 	render_ship();
 	render_circle(g_rand_circles[4], 1.0f, 0.0f, 0.0f);
+	render_bullets();
+
+	//glPushMatrix();
+	//glLoadIdentity();
+
+	//glPointSize(2.0);
+	/*glBegin(GL_POINT);
+	glColor3f(1, 1, 0);
+	glVertex2f(0.5, 0.5);
+	glEnd();
+
+	glPopMatrix();*/
 	
 }
 
@@ -660,7 +728,7 @@ void ship_movement() {
 
 		ship.transform.position.x += normalised.x * ship.speed * delta_time;
 		ship.transform.position.y += normalised.y * ship.speed * delta_time;
-		printf("normalise: %f , %f. angle: %f\n", normalised.x, normalised.y, rad);
+		//printf("normalise: %f , %f. angle: %f\n", normalised.x, normalised.y, rad);
 	}
 	else if (ship.move_down)
 	{
@@ -755,19 +823,65 @@ void near_wall() {
 
 }
 
+collection_of_bullets delete_bullet(collection_of_bullets b, int index) {
+	for (int i = index + 1; i < b.number_of_bullets; i++) {
+		b.bullets[i - 1] = b.bullets[i];
+	}
+	b.number_of_bullets -= 1;
+	return b;
+}
 
+void update_bullets() 
+{
+	if (bullets.active == true) 
+	{
+		if (bullets.add_new_bullet == true) 
+		{
+			if (bullets.number_of_bullets < MAX_BULLETS) 
+			{
+				printf("create new bullet\n");
+				bullet new_bullet;
+				new_bullet.speed = 0.0001;
+				new_bullet.transform = ship.transform;
+				new_bullet.active = true;
+				bullets.bullets[bullets.number_of_bullets] = new_bullet;
+				bullets.number_of_bullets += 1;
+			}
+		}
+		if (bullets.number_of_bullets > 0) {
+			for (int i = 0; i < bullets.number_of_bullets; i++)
+			{
+				float rad = degree_to_rad(bullets.bullets[i].transform.rotation + 90);
+				vector2 normalised = rad_angle_to_direction(rad);
+				bullets.bullets[i].transform.position.x += normalised.x * bullets.bullets[i].speed * delta_time;
+				bullets.bullets[i].transform.position.y += normalised.y * bullets.bullets[i].speed * delta_time;
+				//printf(" bullet normalise: %f , %f. angle: %f\n", normalised.x, normalised.y, rad);
 
+				float x = bullets.bullets[i].transform.position.x;
+				float y = bullets.bullets[i].transform.position.y;
 
+				//if a bullet it out of bounds
+				if (x < -1 || x>1 || y > 1 || y < -1) {
+					printf("delete bullet\n");
+					bullets = delete_bullet(bullets, i);
+					i -= 1;
+				}
 
+			}
+		}
+	}
+}
 
 
 void update_game_state()
 {
 	delta_time = glutGet(GLUT_ELAPSED_TIME) - total_time;
-	total_time = glutGet(GLUT_ELAPSED_TIME); 
+	total_time = glutGet(GLUT_ELAPSED_TIME);
+	printf("delta: %f", delta_time);
 
 	ship_movement();
 	near_wall();
+	update_bullets();
 
 }
 
@@ -835,6 +949,20 @@ void on_special_key_release(int key, int x, int y)
 
 void on_mouse_button(int button, int state, int x, int y)
 {
+	if (button == GLUT_LEFT_BUTTON) {
+		printf("left mouse click!\n");
+		bullets.active = true;
+		if (bullets.add_new_bullet == true) {
+			bullets.add_new_bullet = false;
+			printf("no bullets\n");
+		}
+		else {
+			bullets.add_new_bullet = true;
+			printf("new bullets\n");
+		}
+		//bullets.add_new_bullet = true;
+
+	}
 }
 
 void on_mouse_move(int x, int y)
@@ -898,6 +1026,7 @@ void init_app(int* argcp, char** argv, window_t* mainwinp)
 	glutKeyboardUpFunc(on_key_release);
 	glutSpecialUpFunc(on_special_key_release);
 	glutMouseFunc(on_mouse_button);
+	
 	glutPassiveMotionFunc(on_mouse_move);
 	glutMotionFunc(on_mouse_drag);
 
