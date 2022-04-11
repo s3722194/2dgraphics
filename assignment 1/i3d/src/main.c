@@ -184,8 +184,24 @@ float vector_angle_rad(vector2 v1, vector2 v2) {
 	return acos(dot_product(v1, v2) / (vector_length(v1) * vector_length(v2)));
 }
 
-float angle_to_rad(float a) {
-	return a * (180 / M_PI);
+float degree_to_rad(float a) {
+	return a * (M_PI/180);
+}
+
+float rad_to_degree(float a) {
+	return a * (180/M_PI);
+}
+
+
+float vector_angle_degree(vector2 v1, vector2 v2) {
+	return rad_to_degree( acos(dot_product(v1, v2) / (vector_length(v1) * vector_length(v2))));
+}
+
+vector2 rad_angle_to_direction(float angle) {
+	vector2 answer;
+	answer.x = cos(angle);
+	answer.y = sin(angle);
+	return answer;
 }
 
 
@@ -291,6 +307,8 @@ void create_ship() {
 	ship.move_up = false;
 	ship.turn_left = false;
 	ship.turn_right = false;
+
+	ship.speed = 0.001;
 
 }
 
@@ -621,26 +639,48 @@ void on_display()
 	glutSwapBuffers();
 }
 
+void ship_movement() {
+	float rotation = 5;
+
+	if (ship.move_up)
+	{
+		//ship.transform.position.y += 0.001;
+		float rad = degree_to_rad(ship.transform.rotation + 90);
+		vector2 normalised = rad_angle_to_direction(rad);
+
+		ship.transform.position.x += normalised.x * ship.speed * delta_time;
+		ship.transform.position.y += normalised.y * ship.speed * delta_time;
+		printf("normalise: %f , %f. angle: %f\n", normalised.x, normalised.y, rad);
+	}
+	else if (ship.move_down)
+	{
+		float rad = degree_to_rad(ship.transform.rotation + 90);
+		vector2 normalised = rad_angle_to_direction(rad);
+		ship.transform.position.x -= normalised.x * ship.speed * delta_time;
+		ship.transform.position.y -= normalised.y * ship.speed * delta_time;
+		printf("normalise: %f , %f. angle: %f\n", normalised.x, normalised.y, rad);
+	}
+	else if (ship.turn_left)
+	{
+		ship.transform.rotation += rotation;
+	}
+	else if (ship.turn_right)
+	{
+		ship.transform.rotation -= rotation;
+	}
+}
+
+
 void update_game_state()
 {
 	delta_time = glutGet(GLUT_ELAPSED_TIME) - total_time;
 	total_time = glutGet(GLUT_ELAPSED_TIME); 
 
-
-	if (ship.move_up) {
-		ship.transform.position.y += 0.001;
-	}
-	else if (ship.move_down) {
-		ship.transform.position.y -= 0.001;
-	}
-	else if (ship.turn_left) {
-		ship.transform.rotation -= 1;
-	}
-	else if (ship.turn_right) {
-		ship.transform.rotation += 1;
-	}
+	ship_movement();
+	
 
 }
+
 
 
 
@@ -660,13 +700,13 @@ void on_key_press(unsigned char key, int x, int y)
 		ship.move_up = true;
 		break;
 	case 'a':
-		ship.turn_right = true;
+		ship.turn_left = true;
 		break;
 	case 's':
 		ship.move_down = true;
 		break;
 	case 'd':
-		ship.turn_left = true;
+		ship.turn_right = true;
 		break;
 	case KEY_ESC:
 	case 'q':
@@ -690,13 +730,13 @@ void on_key_release(unsigned char key, int x, int y)
 		ship.move_up = false;
 		break;
 	case 'a':
-		ship.turn_right = false;
+		ship.turn_left = false;
 		break;
 	case 's':
 		ship.move_down = false;
 		break;
 	case 'd':
-		ship.turn_left = false;
+		ship.turn_right = false;
 		break;
 	default:
 		break;
