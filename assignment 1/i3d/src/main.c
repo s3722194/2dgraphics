@@ -848,6 +848,9 @@ void update_astroids() {
 			asteroid new_astreroid;
 			int max_number = 360;
 			int minimum_number = 0;
+
+			//this is so we get some good vaules for rand 
+			//i find the first few can see quite smiliar
 			rand();
 			rand();
 			int degree = rand() % (max_number + 1 - minimum_number) + minimum_number;
