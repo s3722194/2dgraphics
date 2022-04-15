@@ -9,5 +9,37 @@
     <ClCompile Include="..\src\main.c">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\input.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\logic.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rendering.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\setup.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\vectors.c">
+      <Filter>src</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\src\input.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\logic.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\rendering.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\setup.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\vectors.h">
+      <Filter>src</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

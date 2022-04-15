@@ -109,7 +109,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\libs\include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\McLovin\Documents\3d graphics class\github\2dgraphics\assignment 1\i3d\src;...\src\include;..\libs\include\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -154,7 +154,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\main.c" />
+    <ClCompile Include="..\src\input.c" />
+    <ClCompile Include="..\src\logic.c" />
+    <ClCompile Include="..\src\main.c">
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\McLovin\Documents\3d graphics class\github\2dgraphics\assignment 1\i3d\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <ClCompile Include="..\src\rendering.c" />
+    <ClCompile Include="..\src\setup.c" />
+    <ClCompile Include="..\src\vectors.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\src\input.h" />
+    <ClInclude Include="..\src\logic.h" />
+    <ClInclude Include="..\src\rendering.h" />
+    <ClInclude Include="..\src\setup.h" />
+    <ClInclude Include="..\src\vectors.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
