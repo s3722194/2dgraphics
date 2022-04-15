@@ -180,7 +180,7 @@ void render_bullets() {
 			glPushMatrix();
 			glLoadIdentity();
 			circle_t c;
-			c.radius = 0.01;
+			c.radius = bullets.bullets[i].radius;
 			c.pos_x = bullets.bullets[i].transform.position.x;
 			c.pos_y = bullets.bullets[i].transform.position.y;
 			render_circle_rotation(c, 0, 0.8, 0, ship.transform.rotation);

@@ -82,6 +82,7 @@ typedef struct Bullet {
 	bool active;
 	float speed;
 	int hit_power;
+	float radius;
 } bullet;
 
 typedef struct Collection_Bullets {
