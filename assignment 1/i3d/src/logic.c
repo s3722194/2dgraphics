@@ -64,6 +64,8 @@ void reset_player() {
 	ship.top_wall = false;
 	ship.right_wall = false;
 	ship.left_wall = false;
+	
+	//asteroids.create_more_asteroids = true;
 
 }
 
@@ -152,9 +154,6 @@ void update_astroids() {
 			asteroids.asteroids[asteroids.number_of_asteroids] = new_astreroid;
 			asteroids.number_of_asteroids += 1;
 		}
-
-
-
 	}
 
 	if (asteroids.number_of_asteroids > 0) {
@@ -171,7 +170,7 @@ void update_astroids() {
 
 			//printf("move astroid %f , %f\n" ,x,y);
 			//if a bullet it out of bounds
-			if (x < -1.5 || x>1.5 || y > 1.5 || y < -1.5) {
+			if (x < -2 || x>2 || y > 2 || y < -2) {
 				printf("delete astroid\n");
 				for (int j = i + 1; j < asteroids.number_of_asteroids; j++) {
 					asteroids.asteroids[j - 1] = asteroids.asteroids[j];
@@ -190,8 +189,6 @@ void update_astroids() {
 				else {
 					return;
 				}
-
-
 			}
 		}
 	}
@@ -243,6 +240,23 @@ void update_bullets()
 				bullet new_bullet;
 				new_bullet.speed = 0.001;
 				new_bullet.transform = ship.transform;
+				vector2 vec;
+				vec.x = 0.07;
+				vec.y = 0.1;
+				vector2 normalise = vector_normalise(vec);
+				vector2 right;
+				right.x = 1;
+				right.y =0;
+				float rad_angle = vector_angle_rad(right, normalise);
+				vector2 v1 = rad_angle_to_direction(rad_angle + degree_to_rad(90));
+				float l = vector_length(vec);
+				printf("new transform %f,%f. \n", v1.x, v1.y);
+				v1.x = v1.x / l;
+				v1.y = v1.y / l;
+				printf("new transform %f,%f. normalise %f %f  angle rad_angel %f length: %f\n", 
+					v1.x, v1.y, normalise.x, normalise.y, rad_angle, l);
+				/*new_bullet.transform.position.x = v1.x;
+				new_bullet.transform.position.y = v1.y;*/
 				new_bullet.active = true;
 				bullets.bullets[bullets.number_of_bullets] = new_bullet;
 				bullets.number_of_bullets += 1;
@@ -277,6 +291,45 @@ void update_bullets()
 	}
 }
 
+void check_collisions() {
+
+	check_player_asteroid_collision();
+	check_bullet_asteroid_collision();
+	
+}
+
+void check_bullet_asteroid_collision() {
+
+	for (int i = 0; i < bullets.number_of_bullets; i++) {
+		circle_t bullet_bounds;
+		for (int j = 0; j < asteroids.number_of_asteroids; j++) {
+
+		}
+	}
+}
+
+void check_player_asteroid_collision() {
+
+	circle_t player_bounds;
+	player_bounds.pos_x = ship.bounds.origin.x+ship.transform.position.x;
+	player_bounds.pos_y = ship.bounds.origin.y+ ship.transform.position.y;
+	player_bounds.radius = ship.bounds.radius;
+	for (int i = 0; i < asteroids.number_of_asteroids; i++) {
+		circle_t asteroid_bounds;
+		asteroid_bounds.pos_x = asteroids.asteroids[i].point.origin.x+ asteroids.asteroids[i].transform.position.x;
+		asteroid_bounds.pos_y = asteroids.asteroids[i].point.origin.y+ asteroids.asteroids[i].transform.position.y;
+		asteroid_bounds.radius = asteroids.asteroids[i].point.radius;
+
+
+		int overlap = detect_overlap(asteroid_bounds, player_bounds);
+		if (overlap == 1) {
+			printf("collison with asteroid and player!\n");
+			reset_player();
+			return;
+		}
+	}
+}
+
 
 void update_game_state()
 {
@@ -288,6 +341,7 @@ void update_game_state()
 	near_wall();
 	update_bullets();
 	update_astroids();
+	check_collisions();
 
 }
 

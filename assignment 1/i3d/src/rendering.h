@@ -12,5 +12,6 @@ void render_circle(circle_t circle, float cr, float cg, float cb);
 void render_launch_position();
 void render_frame();
 void on_display();
+void render_circle_rotation(circle_t circle, float cr, float cg, float cb, float rotation);
 
 #endif

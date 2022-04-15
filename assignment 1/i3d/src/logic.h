@@ -10,5 +10,8 @@ collection_of_bullets delete_bullet(collection_of_bullets b, int index);
 void update_bullets();
 void update_game_state(); 
 void on_idle();
+void check_player_asteroid_collision();
+void check_collisions();
+void check_bullet_asteroid_collision();
 
 #endif

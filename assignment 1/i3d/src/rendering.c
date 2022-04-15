@@ -137,18 +137,18 @@ void render_ship() {
 	//ship gun
 	glBegin(GL_POLYGON);
 	glColor3f(0.3, 0.4, 0.1);
-	glVertex3f(0.1, 0.05, 1);
-	glVertex3f(0.05, 0.05, 1);
-	glVertex3f(0.05, 0.1, 1);
-	glVertex3f(0.1, 0.1, 1);
+	glVertex3f(0.025, 0, 1);
+	glVertex3f(0.025, -0.05, 1);
+	glVertex3f(-0.025, -0.05, 1);
+	glVertex3f(-0.025, 0, 1);
 	glEnd();
 
 	glBegin(GL_POLYGON);
 	glColor3f(0.3, 0.4, 0.1);
-	glVertex3f(0.0666, 0.1, 1);
-	glVertex3f(0.08333, 0.1, 1);
-	glVertex3f(0.0833, 0.11, 1);
-	glVertex3f(0.0666, 0.11, 1);
+	glVertex3f(0.01, 0, 1);
+	glVertex3f(0.01, 0.01, 1);
+	glVertex3f(-0.01, 0.01, 1);
+	glVertex3f(-0.01, 0.0, 1);
 	glEnd();
 
 
@@ -183,7 +183,7 @@ void render_bullets() {
 			c.radius = 0.01;
 			c.pos_x = bullets.bullets[i].transform.position.x;
 			c.pos_y = bullets.bullets[i].transform.position.y;
-			render_circle(c, 0, 0.8, 0);
+			render_circle_rotation(c, 0, 0.8, 0, ship.transform.rotation);
 
 			glPopMatrix();
 
@@ -309,6 +309,21 @@ void draw_circle_cartesian(float r, int n)
 	}
 
 	glEnd();
+}
+
+void render_circle_rotation(circle_t circle, float cr, float cg, float cb, float rotation)
+{
+	glPushMatrix();
+	glLoadIdentity();
+	
+	glTranslatef(circle.pos_x, circle.pos_y, 0.0f);
+	glRotatef(rotation + degree_to_rad(90), 0.0f, 0.0f, 1.0f);
+	//glrotationf(rotation, 0.0f, 0.0f, 1.0f);
+	glScalef(circle.radius, circle.radius, 1.0f);
+	glColor3f(cr, cg, cb);
+	// draw a unit circle
+	draw_circle_cartesian(1.0, 64);
+	glPopMatrix();
 }
 
 void render_circle(circle_t circle, float cr, float cg, float cb)

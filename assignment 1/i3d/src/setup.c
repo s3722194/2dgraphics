@@ -55,7 +55,7 @@ void create_ship() {
 	//point 2
 	vector3 point2;
 	point2.x = 0;
-	point2.y = -0.05;
+	point2.y = 0.02;
 	point2.z = 0;
 
 	ship.points[1] = point2;
@@ -87,7 +87,7 @@ void create_ship() {
 	//point 6
 	vector3 point6;
 	point6.x = 0;
-	point6.y = -0.05;
+	point6.y = 0.02;
 	point6.z = 0;
 
 	ship.points[5] = point6;
@@ -108,7 +108,7 @@ void create_ship() {
 
 	ship.bounds.origin.x = 0;
 	ship.bounds.origin.y = 0;
-	ship.bounds.radius = 0.5;
+	ship.bounds.radius = 0.05;
 
 	ship.move_down = false;
 	ship.move_up = false;
@@ -127,38 +127,46 @@ void create_ship() {
 void create_gun() {
 	ship.gun.actvie = true;
 	ship.gun.transform = ship.transform;
+	ship.gun.number_of_points = 8;
+	ship.gun.fill_colour.r = 0.1;
+	ship.gun.fill_colour.g = 0.5;
+	ship.gun.fill_colour.b = 0.1;
 
-	ship.points[0].x = 0.1;
-	ship.points[0].y = 0.05;
-	ship.points[0].z = 1;
+	ship.gun.outline_colour.r = 0.3;
+	ship.gun.outline_colour.g = 0.7;
+	ship.gun.outline_colour.b = 0.3;
 
-	ship.points[1].x = 0.05;
-	ship.points[1].y = 0.05;
-	ship.points[1].z = 1;
+	ship.gun.points[0].x = 0.1;
+	ship.gun.points[0].y = 0.05;
+	ship.gun.points[0].z = 0;
 
-	ship.points[2].x = 0.05;
-	ship.points[2].y = 0.1;
+	ship.gun.points[1].x = 0.05;
+	ship.gun.points[1].y = 0.05;
+	ship.gun.points[1].z = 0;
+
+	ship.gun.points[2].x = 0.05;
+	ship.gun.points[2].y = 0.1;
 	ship.points[2].z = 1;
 
-	ship.points[3].x = 0.1;
-	ship.points[3].y = 0.1;
-	ship.points[3].z = 1;
+	ship.gun.points[3].x = 0.1;
+	ship.gun.points[3].y = 0.1;
+	ship.gun.points[3].z = 0;
 
-	ship.points[4].x = 0.0666;
-	ship.points[4].y = 0.1;
-	ship.points[4].z = 1;
+	ship.gun.points[4].x = 0.0666;
+	ship.gun.points[4].y = 0.1;
+	ship.gun.points[4].z = 1;
 
-	ship.points[5].x = 0.08333;
-	ship.points[5].y = 0.1;
-	ship.points[5].z = 1;
+	ship.gun.points[5].x = 0.08333;
+	ship.gun.points[5].y = 0.1;
+	ship.gun.points[5].z = 0;
 
-	ship.points[6].x = 0.08333;
-	ship.points[6].y = 0.11;
-	ship.points[6].z = 1;
+	ship.gun.points[6].x = 0.08333;
+	ship.gun.points[6].y = 0.11;
+	ship.gun.points[6].z = 0;
 
-	ship.points[7].x = 0.0666;
-	ship.points[7].y = 0.11;
-	ship.points[7].z = 1;
+	ship.gun.points[7].x = 0.0666;
+	ship.gun.points[7].y = 0.11;
+	ship.gun.points[7].z = 0;
 
 	
 	//glBegin(GL_POLYGON);

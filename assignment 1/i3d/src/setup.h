@@ -24,6 +24,15 @@ typedef struct Transform
 
 } transform2d;
 
+typedef struct Basic_Gun {
+	transform2d transform;
+	vector3 points[8];
+	int number_of_points;
+	colour fill_colour;
+	colour outline_colour;
+	bool actvie;
+} basic_gun;
+
 typedef struct Player {
 	vector3 points[6];
 	int number_of_points;
@@ -97,14 +106,7 @@ typedef struct Collection_Asteroid {
 	int hit_points;
 } collection_of_asteroids;
 
-typedef struct Basic_Gun {
-	transform2d transform;
-	vector3 points[8];
-	int number_of_points;
-	colour fill_colour;
-	colour outline_colour;
-	bool actvie;
-} basic_gun;
+
 
 
 typedef struct
