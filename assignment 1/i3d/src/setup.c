@@ -121,6 +121,62 @@ void create_ship() {
 	ship.top_wall = false;
 	ship.right_wall = false;
 	ship.left_wall = false;
+	create_gun();
+}
+
+void create_gun() {
+	ship.gun.actvie = true;
+	ship.gun.transform = ship.transform;
+
+	ship.points[0].x = 0.1;
+	ship.points[0].y = 0.05;
+	ship.points[0].z = 1;
+
+	ship.points[1].x = 0.05;
+	ship.points[1].y = 0.05;
+	ship.points[1].z = 1;
+
+	ship.points[2].x = 0.05;
+	ship.points[2].y = 0.1;
+	ship.points[2].z = 1;
+
+	ship.points[3].x = 0.1;
+	ship.points[3].y = 0.1;
+	ship.points[3].z = 1;
+
+	ship.points[4].x = 0.0666;
+	ship.points[4].y = 0.1;
+	ship.points[4].z = 1;
+
+	ship.points[5].x = 0.08333;
+	ship.points[5].y = 0.1;
+	ship.points[5].z = 1;
+
+	ship.points[6].x = 0.08333;
+	ship.points[6].y = 0.11;
+	ship.points[6].z = 1;
+
+	ship.points[7].x = 0.0666;
+	ship.points[7].y = 0.11;
+	ship.points[7].z = 1;
+
+	
+	//glBegin(GL_POLYGON);
+	//glColor3f(0.3, 0.4, 0.1);
+	// 
+	//glVertex3f(0.1, 0.05, 1);
+	//glVertex3f(0.05, 0.05, 1);
+	//glVertex3f(0.05, 0.1, 1);
+	//glVertex3f(0.1, 0.1, 1);
+	//glEnd();
+
+	//glBegin(GL_POLYGON);
+	//glColor3f(0.3, 0.4, 0.1);
+	//glVertex3f(0.0666, 0.1, 1);
+	//glVertex3f(0.08333, 0.1, 1);
+	//glVertex3f(0.0833, 0.11, 1);
+	//glVertex3f(0.0666, 0.11, 1);
+	//glEnd();
 
 }
 

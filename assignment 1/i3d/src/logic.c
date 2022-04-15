@@ -69,7 +69,6 @@ void reset_player() {
 
 void check_wall(vector2 point) {
 
-
 	if (point.x < -0.9) {
 		ship.left_wall = true;
 	}

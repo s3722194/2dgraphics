@@ -42,6 +42,11 @@ typedef struct Player {
 	bool bottom_wall;
 	bool right_wall;
 	bool left_wall;
+	basic_gun gun;
+	int max_hit_point;
+	int hit_points;
+	int score;
+	
 } player;
 
 typedef struct Asteroid {
@@ -51,21 +56,23 @@ typedef struct Asteroid {
 	colour fill_colour;
 	float speed;
 	vector2 direction;
+	int hit_point;
+	bool active;
 } asteroid;
-
-
 
 typedef struct Wall {
 	vector3 points[4];
 	int number_of_points;
 	colour outline_colour;
 	colour fill_colour;
+	colour hit_colour;
 } wall2d;
 
 typedef struct Bullet {
 	transform2d transform;
 	bool active;
 	float speed;
+	int hit_power;
 } bullet;
 
 typedef struct Collection_Bullets {
@@ -75,7 +82,6 @@ typedef struct Collection_Bullets {
 	bool add_new_bullet;
 	float fire_rate;
 	int time_between_bullets;
-
 } collection_of_bullets;
 
 typedef struct Collection_Asteroid {
@@ -86,9 +92,19 @@ typedef struct Collection_Asteroid {
 	bool wave_finished;
 	bool create_more_asteroids;
 	int max_wave;
-
-
+	int min_hit_point;
+	int max_hit_points;
+	int hit_points;
 } collection_of_asteroids;
+
+typedef struct Basic_Gun {
+	transform2d transform;
+	vector3 points[8];
+	int number_of_points;
+	colour fill_colour;
+	colour outline_colour;
+	bool actvie;
+} basic_gun;
 
 
 typedef struct
@@ -118,5 +134,6 @@ void create_bullets();
 void create_asteroid();
 void create_wall();
 void setup_game();
+void create_gun();
 
 #endif
