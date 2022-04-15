@@ -27,6 +27,10 @@
 #define MAX_BULLETS 20
 #endif
 
+#ifndef Z_LAYER
+#define Z_LAYER 0
+#endif
+
 void render_asteroids() {
 
 	if (asteroids.number_of_asteroids > 0) {

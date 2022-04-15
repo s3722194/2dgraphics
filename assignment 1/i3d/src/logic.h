@@ -2,6 +2,8 @@
 #define LOGIC_H
 
 void ship_movement();
+void move_down(bool increase);
+void move_up(bool increase);
 void reset_player();
 void check_wall(vector2 point);
 void initialise_random();
@@ -19,5 +21,8 @@ void check_collisions();
 void check_bullet_asteroid_collision();
 void move_asteroid(int i);
 void delete_asteroid(int i);
+
+void increase_speed();
+
 
 #endif

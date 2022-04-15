@@ -22,38 +22,95 @@
 #include <GL/glut.h>
 #endif
 
+
+
 void ship_movement() {
 	float rotation = 0.5 * delta_time;
+	
 
 	if (ship.turn_left)
 	{
 		ship.transform.rotation += rotation;
-	}
-	if (ship.turn_right)
+	} 
+	else if (ship.turn_right)
 	{
 		ship.transform.rotation -= rotation;
-	}
-
-	if (ship.move_up)
+	} 
+	else if (ship.move_up)
 	{
-		//ship.transform.position.y += 0.001;
-		float rad = degree_to_rad(ship.transform.rotation + 90);
-		vector2 normalised = rad_angle_to_direction(rad);
-
-		ship.transform.position.x += normalised.x * ship.speed * delta_time;
-		ship.transform.position.y += normalised.y * ship.speed * delta_time;
-		//printf("normalise: %f , %f. angle: %f\n", normalised.x, normalised.y, rad);
-	}
-	 if (ship.move_down)
+		move_up(true);
+	} 
+	else if (ship.move_down)
 	{
-		float rad = degree_to_rad(ship.transform.rotation + 90);
-		vector2 normalised = rad_angle_to_direction(rad);
-		ship.transform.position.x -= normalised.x * ship.speed * delta_time;
-		ship.transform.position.y -= normalised.y * ship.speed * delta_time;
-		printf("normalise: %f , %f. angle: %f\n", normalised.x, normalised.y, rad);
+		move_down(true);
+		
+	}
+	else {
+		if (ship.speed > ship.min_speed) {
+			if (ship.last_move_up) {
+				move_up(false);
+			}
+			else {
+				move_down(false);
+			}
+		}
+	}
+}
+
+void decrease_speed() 
+{
+	if (ship.speed > ship.min_speed) {
+		float decrease_speed = ship.speed / 7;
+		ship.speed -= decrease_speed;
+	}
+}
+
+void increase_speed() {
+	if (ship.speed < ship.max_speed) {
+		float inxrease_speed = ship.speed / 15;
+		ship.speed += inxrease_speed;
+	}
+}
+
+void move_down(bool increase)
+{
+	float rad = degree_to_rad(ship.transform.rotation + 90);
+	vector2 normalised = rad_angle_to_direction(rad);
+	if (increase) 
+	{
+		increase_speed();
+	}
+	else 
+	{
+		decrease_speed();
 	}
 	
+	ship.transform.position.x -= normalised.x * ship.speed * delta_time;
+	ship.transform.position.y -= normalised.y * ship.speed * delta_time;
+	ship.last_move_up = false;
 }
+
+void move_up(bool increase)
+{
+	
+	float rad = degree_to_rad(ship.transform.rotation + 90);
+	vector2 normalised = rad_angle_to_direction(rad);
+
+	if (increase)
+	{
+		increase_speed();
+	}
+	else
+	{
+		decrease_speed();
+	}
+
+	ship.transform.position.x += normalised.x * ship.speed * delta_time;
+	ship.transform.position.y += normalised.y * ship.speed * delta_time;
+	ship.last_move_up = true;
+}
+
+
 
 void reset_player() {
 	ship.transform.rotation = 0;

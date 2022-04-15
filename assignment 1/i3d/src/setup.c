@@ -122,6 +122,10 @@ void create_ship() {
 	ship.right_wall = false;
 	ship.left_wall = false;
 	create_gun();
+
+	ship.max_speed = ship.speed * 2;
+	ship.min_speed = ship.speed;
+	ship.last_move_up = true;
 }
 
 void create_gun() {

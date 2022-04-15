@@ -40,17 +40,24 @@ typedef struct Player {
 	circle bounds;
 	colour outline_colour;
 	colour fill_colour;
+
 	float speed;
+	float min_speed;
+	float max_speed;
+
+	//direction to move ship
 	bool move_up;
 	bool move_down;
 	bool turn_left;
 	bool turn_right;
+	bool last_move_up;
 
 	//track which wall its close to
 	bool top_wall;
 	bool bottom_wall;
 	bool right_wall;
 	bool left_wall;
+
 	basic_gun gun;
 	int max_hit_point;
 	int hit_points;
