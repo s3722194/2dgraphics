@@ -123,6 +123,14 @@ void reset_player() {
 	ship.top_wall = false;
 	ship.right_wall = false;
 	ship.left_wall = false;
+
+	asteroids.wave = 0;
+	asteroid a;
+	a.active = false;
+	for (int i = 0; i < asteroids.number_of_asteroids; i++) {
+		asteroids.asteroids[i]=a;
+	}
+	asteroids.number_of_asteroids = 0;
 	
 	//asteroids.create_more_asteroids = true;
 
