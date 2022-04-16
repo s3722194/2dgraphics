@@ -159,7 +159,9 @@
     <ClCompile Include="..\src\main.c">
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\McLovin\Documents\3d graphics class\github\2dgraphics\assignment 1\i3d\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
-    <ClCompile Include="..\src\rendering.c" />
+    <ClCompile Include="..\src\rendering.c">
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">...\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
     <ClCompile Include="..\src\setup.c" />
     <ClCompile Include="..\src\vectors.c" />
   </ItemGroup>

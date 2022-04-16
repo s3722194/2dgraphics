@@ -110,6 +110,21 @@ void move_up(bool increase)
 	ship.last_move_up = true;
 }
 
+void game_over() {
+	game.gameover = true;
+	game.playing = false;
+	game.begin = false;
+	game.restart = false;
+	ship.transform.rotation = 0;
+
+	ship.transform.position.x = 0;
+	ship.transform.position.y = 0;
+	ship.bottom_wall = false;
+	ship.top_wall = false;
+	ship.right_wall = false;
+	ship.left_wall = false;
+}
+
 
 
 void reset_player() {
@@ -117,6 +132,8 @@ void reset_player() {
 
 	ship.transform.position.x = 0;
 	ship.transform.position.y = 0;
+	ship.time = 0;
+	ship.score = 0;
 
 	ship.transform.position.x = 0;
 	ship.bottom_wall = false;
@@ -133,6 +150,10 @@ void reset_player() {
 	asteroids.number_of_asteroids = 0;
 	
 	//asteroids.create_more_asteroids = true;
+	game.playing = true;
+	game.restart = false;
+	game.begin = false;
+	game.gameover = false;
 
 }
 
@@ -155,19 +176,19 @@ void check_wall(vector2 point) {
 	}
 
 	if (point.y < -1) {
-		reset_player();
+		game_over();
 	}
 
 	if (point.y > 1) {
-		reset_player();
+		game_over();
 	}
 
 	if (point.x > 0.95) {
-		reset_player();
+		game_over();
 	}
 
 	if (point.x < -1) {
-		reset_player();
+		game_over();
 	}
 }
 
@@ -177,44 +198,113 @@ void initialise_random()
 	rand();
 }
 
-void create_new__asteroid(int i)
+int random_range(int min_number, int max_number) {
+	return rand() % (max_number + 1 - min_number) + min_number;
+
+}
+
+void create_new_asteroid(int i)
 {
 	srand(time(0) + i);
 	printf("create asteroid!\n");
 	asteroid new_astreroid;
-	int max_number = 360;
-	int minimum_number = 0;
-
+	
 	//this is so we get some good vaules for rand 
 	//i find the first few can see quite smiliar
 	initialise_random();
-	int degree = rand() % (max_number + 1 - minimum_number) + minimum_number;
-	//printf("degree %f\n", degree);
-	float rad = degree_to_rad(degree);
 
+	int spawn_degree = random_range(0, 360);
+	float rad = degree_to_rad(spawn_degree);
 	vector2 normalised = rad_angle_to_direction(rad);
 
 	new_astreroid.transform.position.x = normalised.x * asteroids.lauch_radius;
 	new_astreroid.transform.position.y = normalised.y * asteroids.lauch_radius;
-	new_astreroid.transform.position.z = 1;
+	new_astreroid.transform.position.z = 0;
+	new_astreroid.transform.rotation = 0;
 
-	int min_speed = 10;
-	int max_speed = 100;
-	int speed = rand() % (max_speed + 1 - min_speed) + min_speed;
+	int speed = random_range(1, 50);
 	new_astreroid.speed = (float)speed / 100000.0f;
-	printf("speed %f\n", new_astreroid.speed);
+	//printf("speed %f\n", new_astreroid.speed);
 	circle c;
 	c.origin.x = 0;
 	c.origin.y = 0;
 	int min_radius = 5;
 	int max_radius = 100;
-	int radius = rand() % (max_radius + 1 - min_radius) + min_radius;
+	int radius = random_range(30,100);
 
 	c.radius = (float)radius / 1000;
 
+	int shape_number = random_range(1, 2);
 
+	if (shape_number == 1) {
+		new_astreroid.shape[0].x = (float)random_range(10, 50) / 100.0f;
+		new_astreroid.shape[0].y = (float)random_range(50, 100) / 100.0f;
+
+		new_astreroid.shape[1].x = (float)random_range(50, 100) / 100.0f;
+		new_astreroid.shape[1].y = (float)random_range(10, 50) / 100.0f;
+
+		new_astreroid.shape[2].x = (float)random_range(50, 100) / 100.0f;
+		new_astreroid.shape[2].y = -((float)random_range(10, 50) / 100.0f);
+
+		new_astreroid.shape[3].x = (float)random_range(10, 50) / 100.0f;
+		new_astreroid.shape[3].y = -((float)random_range(50, 100) / 100.0f);
+
+		new_astreroid.shape[4].x = -((float)random_range(10, 50) / 100.0f);
+		new_astreroid.shape[4].y = -((float)random_range(50, 100) / 100.0f);
+
+		new_astreroid.shape[5].x = -((float)random_range(50, 100) / 100.0f);
+		new_astreroid.shape[5].y = -((float)random_range(10, 50) / 100.0f);
+
+		new_astreroid.shape[6].x = -((float)random_range(50, 100) / 100.0f);
+		new_astreroid.shape[6].y = ((float)random_range(10, 50) / 100.0f);
+
+		new_astreroid.shape[7].x = -((float)random_range(10, 50) / 100.0f);
+		new_astreroid.shape[7].y = ((float)random_range(50, 100) / 100.0f);
+
+		new_astreroid.number_of_shapes = 8;
+	}
+	else if (shape_number == 2) {
+		new_astreroid.shape[0].x = (float)random_range(10, 33) / 100.0f;
+		new_astreroid.shape[0].y = (float)random_range(75, 100) / 100.0f;
+
+		new_astreroid.shape[1].x = (float)random_range(34, 66) / 100.0f;
+		new_astreroid.shape[1].y = (float)random_range(25, 75) / 100.0f;
+
+		new_astreroid.shape[2].x = (float)random_range(66, 100) / 100.0f;
+		new_astreroid.shape[2].y = ((float)random_range(1, 25) / 100.0f);
+
+		new_astreroid.shape[3].x = (float)random_range(50, 100) / 100.0f;
+		new_astreroid.shape[3].y = -((float)random_range(10, 50) / 100.0f);
+
+		new_astreroid.shape[4].x = ((float)random_range(10, 50) / 100.0f);
+		new_astreroid.shape[4].y = -((float)random_range(50, 100) / 100.0f);
+
+		new_astreroid.shape[5].x = -((float)random_range(10, 50) / 100.0f);
+		new_astreroid.shape[5].y = -((float)random_range(50, 100) / 100.0f);
+
+		new_astreroid.shape[6].x = -((float)random_range(50, 100) / 100.0f);
+		new_astreroid.shape[6].y = -((float)random_range(50, 100) / 100.0f);
+
+		new_astreroid.shape[7].x = -((float)random_range(66, 100) / 100.0f);
+		new_astreroid.shape[7].y = ((float)random_range(1, 33) / 100.0f);
+
+		new_astreroid.shape[8].x = -(float)random_range(34, 66) / 100.0f;
+		new_astreroid.shape[8].y = (float)random_range(34, 66) / 100.0f;
+
+		new_astreroid.shape[9].x = -(float)random_range(1, 33) / 100.0f;
+		new_astreroid.shape[9].y = (float)random_range(67, 100) / 100.0f;
+
+		new_astreroid.number_of_shapes = 10;
+	}
+
+	
+
+	new_astreroid.rotation_speed = (float) random_range(asteroids.min_rotation_speed, asteroids.max_rotation_speed) /10.0f;
+	
 	new_astreroid.point = c;
-	printf("radius %f\n", new_astreroid.point.radius);
+	new_astreroid.hit_point = (int)((new_astreroid.point.radius * 1000) / 30)+1;
+	//printf("radius %f\n", new_astreroid.point.radius);
+	printf("hp: %d\n", new_astreroid.hit_point);
 
 	vector2 ship_to_local_world = vector_subtraction(vector3_to_vector2(ship.transform.position),
 		vector3_to_vector2(new_astreroid.transform.position));
@@ -226,13 +316,15 @@ void create_new__asteroid(int i)
 
 void update_astroids() {
 
+	//create new asteroids
 	if (asteroids.create_more_asteroids == true) {
 		asteroids.create_more_asteroids = false;
 		for (int i = 0; i < asteroids.wave; i++) {
-			create_new__asteroid(i);
+			create_new_asteroid(i);
 		}
 	}
 
+	//move and detele asteroids
 	if (asteroids.number_of_asteroids > 0) {
 		for (int i = 0; i < asteroids.number_of_asteroids; i++) {
 
@@ -241,8 +333,8 @@ void update_astroids() {
 			float x = asteroids.asteroids[i].transform.position.x;
 			float y = asteroids.asteroids[i].transform.position.y;
 
-			//if a bullet it out of bounds
-			if (x < -2 || x>2 || y > 2 || y < -2) {
+			//if aasteroid is out of bounds delete
+			if (x < -asteroids.lauch_radius || x>asteroids.lauch_radius || y > asteroids.lauch_radius || y < -asteroids.lauch_radius) {
 				printf("delete astroid\n");
 				delete_asteroid(i);
 
@@ -256,6 +348,7 @@ void update_astroids() {
 		}
 	}
 
+	//if there are no more asteroids spawn new asteroids!
 	if (asteroids.number_of_asteroids == 0) {
 		if (asteroids.wave != asteroids.max_wave) {
 			asteroids.wave += 1;
@@ -277,6 +370,7 @@ void move_asteroid(int i)
 	vector2 normalised = asteroids.asteroids[i].direction;
 	asteroids.asteroids[i].transform.position.x += normalised.x * asteroids.asteroids[i].speed * delta_time;
 	asteroids.asteroids[i].transform.position.y += normalised.y * asteroids.asteroids[i].speed * delta_time;
+	asteroids.asteroids[i].transform.rotation += asteroids.asteroids[i].rotation_speed* delta_time;
 	//printf(" bullet normalise: %f , %f. angle: %f\n", normalised.x, normalised.y, rad);
 }
 
@@ -322,33 +416,21 @@ void update_bullets()
 			bullets.time_between_bullets += delta_time;
 			if (bullets.number_of_bullets < MAX_BULLETS && bullets.time_between_bullets>bullets.fire_rate)
 			{
-				printf("create new bullet\n");
-				bullet new_bullet;
-				new_bullet.speed = 0.001;
-				new_bullet.transform = ship.transform;
-				new_bullet.radius = 0.01;
-				
-				new_bullet.active = true;
-				bullets.bullets[bullets.number_of_bullets] = new_bullet;
-				bullets.number_of_bullets += 1;
-				bullets.time_between_bullets = 0;
+				create_new_bullet();
 
 			}
 		}
 		if (bullets.number_of_bullets > 0) {
 			for (int i = 0; i < bullets.number_of_bullets; i++)
 			{
-				float rad = degree_to_rad(bullets.bullets[i].transform.rotation + 90);
-				vector2 normalised = rad_angle_to_direction(rad);
-				bullets.bullets[i].transform.position.x += normalised.x * bullets.bullets[i].speed * delta_time;
-				bullets.bullets[i].transform.position.y += normalised.y * bullets.bullets[i].speed * delta_time;
+				move_bullet(i);
 				//printf(" bullet normalise: %f , %f. angle: %f\n", normalised.x, normalised.y, rad);
 
 				float x = bullets.bullets[i].transform.position.x;
 				float y = bullets.bullets[i].transform.position.y;
 
 				//if a bullet it out of bounds
-				if (x < -1 || x>1 || y > 1 || y < -1) {
+				if (x < -2 || x>2 || y > 2 || y < -2) {
 					printf("delete bullet\n");
 					bullets = delete_bullet(bullets, i);
 					if (i != 0) {
@@ -361,6 +443,28 @@ void update_bullets()
 			}
 		}
 	}
+}
+
+void move_bullet(int i)
+{
+	float rad = degree_to_rad(bullets.bullets[i].transform.rotation + 90);
+	vector2 normalised = rad_angle_to_direction(rad);
+	bullets.bullets[i].transform.position.x += normalised.x * bullets.bullets[i].speed * delta_time;
+	bullets.bullets[i].transform.position.y += normalised.y * bullets.bullets[i].speed * delta_time;
+}
+
+void create_new_bullet()
+{
+	printf("create new bullet\n");
+	bullet new_bullet;
+	new_bullet.speed = 0.001;
+	new_bullet.transform = ship.transform;
+	new_bullet.radius = 0.01;
+
+	new_bullet.active = true;
+	bullets.bullets[bullets.number_of_bullets] = new_bullet;
+	bullets.number_of_bullets += 1;
+	bullets.time_between_bullets = 0;
 }
 
 void check_collisions() {
@@ -389,9 +493,17 @@ void check_bullet_asteroid_collision() {
 				int overlap = detect_overlap(asteroid_bounds, bullet_bounds);
 				if (overlap == 1) {
 					printf("collison with asteroid and bullet!\n");
-
+					if (asteroids.asteroids[i].hit_point > 1) {
+						asteroids.asteroids[i].hit_point -= 1;
+						printf("hit points %d", asteroids.asteroids[i].hit_point);
+						ship.score += 1;
+					}
+					else {
+						delete_asteroid(j);
+					}
 					bullets = delete_bullet(bullets, i);
-					delete_asteroid(j);
+					
+					ship.score += 1;
 					if (i != 0) {
 						i -= 1;
 					}
@@ -425,7 +537,7 @@ void check_player_asteroid_collision() {
 		int overlap = detect_overlap(asteroid_bounds, player_bounds);
 		if (overlap == 1) {
 			printf("collison with asteroid and player!\n");
-			reset_player();
+			game_over();
 			return;
 		}
 	}
@@ -434,15 +546,29 @@ void check_player_asteroid_collision() {
 
 void update_game_state()
 {
+	
 	delta_time = glutGet(GLUT_ELAPSED_TIME) - total_time;
 	total_time = glutGet(GLUT_ELAPSED_TIME);
 
+	if (game.playing) {
+		ship.time += delta_time;
 
-	ship_movement();
-	near_wall();
-	update_bullets();
-	update_astroids();
-	check_collisions();
+
+		ship_movement();
+		near_wall();
+		update_bullets();
+		update_astroids();
+		check_collisions();
+	}
+	else if (game.gameover) {
+
+		update_bullets();
+		update_astroids();
+	}
+	else if (game.restart) {
+		reset_player();
+	}
+	
 
 }
 

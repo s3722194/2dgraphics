@@ -62,18 +62,33 @@ typedef struct Player {
 	int max_hit_point;
 	int hit_points;
 	int score;
+
+	int time;
+
+
 	
 } player;
+
+typedef struct World {
+	bool begin;
+	bool gameover;
+	bool restart;
+	bool playing;
+} game_state;
 
 typedef struct Asteroid {
 	transform2d transform;
 	circle point;
+	vector2 shape[20];
+	int number_of_shapes;
 	colour outline_colour;
 	colour fill_colour;
+	colour hit_colour;
 	float speed;
 	vector2 direction;
 	int hit_point;
 	bool active;
+	float rotation_speed;
 } asteroid;
 
 typedef struct Wall {
@@ -111,7 +126,9 @@ typedef struct Collection_Asteroid {
 	int max_wave;
 	int min_hit_point;
 	int max_hit_points;
-	int hit_points;
+	
+	float min_rotation_speed;
+	float max_rotation_speed;
 } collection_of_asteroids;
 
 
@@ -138,6 +155,7 @@ int total_time;
 int delta_time;
 collection_of_bullets bullets;
 window_t g_mainwin;
+game_state game;
 
 void create_ship();
 void create_bullets();
@@ -145,5 +163,6 @@ void create_asteroid();
 void create_wall();
 void setup_game();
 void create_gun();
+void create_game();
 
 #endif

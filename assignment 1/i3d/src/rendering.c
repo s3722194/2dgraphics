@@ -37,15 +37,37 @@ void render_asteroids() {
 		for (int i = 0; i < asteroids.number_of_asteroids; i++) {
 			glPushMatrix();
 			glLoadIdentity();
+			glTranslatef(asteroids.asteroids[i].transform.position.x , asteroids.asteroids[i].transform.position.y, 0.0f);
+			glRotatef(degree_to_rad(asteroids.asteroids[i].transform.rotation), 0, 0, 1.0f);
+			glScalef(asteroids.asteroids[i].point.radius, asteroids.asteroids[i].point.radius, 1.0f);
+		
 			circle_t c;
 			c.pos_x = asteroids.asteroids[i].transform.position.x;
 			c.pos_y = asteroids.asteroids[i].transform.position.y;
 			c.radius = asteroids.asteroids[i].point.radius;
 
-			render_circle(c, 1, 0, 1);
+			if (asteroids.asteroids[i].hit_point == (int)(((asteroids.asteroids[i].point.radius * 1000) / 30) + 1)) {
+				render_asteroid_shape(i, 1, 0, 1);
+				//render_circle(c, 1, 0, 1);
+			}
+			else {
+				render_asteroid_shape(i, 0.5, 0, 0.5);
+				//render_circle(c, 0.5, 0, 0.5);
+			}
+			
 			glPopMatrix();
 		}
 	}
+}
+
+void render_asteroid_shape(int i, float r, float g, float b) {
+	glBegin(GL_LINE_LOOP);
+	glColor3f(r, g, b);
+	for (int j = 0; j < asteroids.asteroids[i].number_of_shapes; j++) 
+	{
+		glVertex3f(asteroids.asteroids[i].shape[j].x, asteroids.asteroids[i].shape[j].y, Z_LAYER);
+	}
+	glEnd();
 }
 
 void render_string(float x, float y, void* font, const char* string)
@@ -80,22 +102,22 @@ void render_ship() {
 
 	//tranformation
 	glTranslatef(ship.transform.position.x, ship.transform.position.y, 0.0f);
-	glRotatef(ship.transform.rotation, 0.0f, 0.0f, 1.0f);
+	glRotatef( ship.transform.rotation, 0.0f, 0.0f, 1.0f);
 	glScalef(1, 1, 1);
 
 	//render the trianges
 	glBegin(GL_POLYGON);
 	glColor3f(ship.fill_colour.r, ship.fill_colour.g, ship.fill_colour.b);
-	glVertex3f(ship.points[0].x, ship.points[0].y, ship.points[0].z);
-	glVertex3f(ship.points[1].x, ship.points[1].y, ship.points[1].z);
-	glVertex3f(ship.points[2].x, ship.points[2].y, ship.points[2].z);
+	glVertex3f(ship.points[0].x, ship.points[0].y, Z_LAYER);
+	glVertex3f(ship.points[1].x, ship.points[1].y, Z_LAYER);
+	glVertex3f(ship.points[2].x, ship.points[2].y, Z_LAYER);
 	glEnd();
 
 	glBegin(GL_POLYGON);
 	glColor3f(ship.fill_colour.r, ship.fill_colour.g, ship.fill_colour.b);
-	glVertex3f(ship.points[3].x, ship.points[3].y, ship.points[3].z);
-	glVertex3f(ship.points[4].x, ship.points[4].y, ship.points[4].z);
-	glVertex3f(ship.points[5].x, ship.points[5].y, ship.points[5].z);
+	glVertex3f(ship.points[3].x, ship.points[3].y, Z_LAYER);
+	glVertex3f(ship.points[4].x, ship.points[4].y, Z_LAYER);
+	glVertex3f(ship.points[5].x, ship.points[5].y, Z_LAYER);
 	glEnd();
 
 	//render the outline
@@ -103,57 +125,43 @@ void render_ship() {
 	glBegin(GL_LINES);
 	glColor3f(1, 0, 1);
 	//glLineWidth(2.0);
-	glVertex3f(ship.points[0].x, ship.points[0].y, ship.points[0].z);
-	glVertex3f(ship.points[1].x, ship.points[1].y, ship.points[1].z);
-	glVertex3f(ship.points[2].x, ship.points[2].y, ship.points[2].z);
+	glVertex3f(ship.points[0].x, ship.points[0].y, Z_LAYER);
+	glVertex3f(ship.points[1].x, ship.points[1].y, Z_LAYER);
+	glVertex3f(ship.points[2].x, ship.points[2].y, Z_LAYER);
 	glEnd();
 
 	glBegin(GL_LINES);
 	glColor3f(1, 0, 1);
-	glVertex3f(ship.points[1].x, ship.points[1].y, ship.points[1].z);
-	glVertex3f(ship.points[2].x, ship.points[2].y, ship.points[2].z);
+	glVertex3f(ship.points[1].x, ship.points[1].y, Z_LAYER);
+	glVertex3f(ship.points[2].x, ship.points[2].y, Z_LAYER);
 	glEnd();
 
 	glBegin(GL_LINES);
 	glColor3f(1, 0, 1);
-	glVertex3f(ship.points[3].x, ship.points[3].y, ship.points[3].z);
-	glVertex3f(ship.points[2].x, ship.points[2].y, ship.points[2].z);
+	glVertex3f(ship.points[3].x, ship.points[3].y, Z_LAYER);
+	glVertex3f(ship.points[2].x, ship.points[2].y, Z_LAYER);
 	glEnd();
 
 	glBegin(GL_LINES);
 	glColor3f(1, 0, 1);
-	glVertex3f(ship.points[3].x, ship.points[3].y, ship.points[3].z);
-	glVertex3f(ship.points[4].x, ship.points[4].y, ship.points[4].z);
+	glVertex3f(ship.points[3].x, ship.points[3].y, Z_LAYER);
+	glVertex3f(ship.points[4].x, ship.points[4].y, Z_LAYER);
 	glEnd();
 
 	glBegin(GL_LINES);
 	glColor3f(1, 0, 1);
-	glVertex3f(ship.points[4].x, ship.points[4].y, ship.points[4].z);
-	glVertex3f(ship.points[5].x, ship.points[5].y, ship.points[5].z);
+	glVertex3f(ship.points[4].x, ship.points[4].y, Z_LAYER);
+	glVertex3f(ship.points[5].x, ship.points[5].y, Z_LAYER);
 	glEnd();
 
 	glBegin(GL_LINES);
 	glColor3f(1, 0, 1);
-	glVertex3f(ship.points[0].x, ship.points[0].y, ship.points[0].z);
-	glVertex3f(ship.points[2].x, ship.points[2].y, ship.points[2].z);
+	glVertex3f(ship.points[0].x, ship.points[0].y, Z_LAYER);
+	glVertex3f(ship.points[2].x, ship.points[2].y, Z_LAYER);
 	glEnd();
 
 	//ship gun
-	glBegin(GL_POLYGON);
-	glColor3f(0.3, 0.4, 0.1);
-	glVertex3f(0.025, 0, 1);
-	glVertex3f(0.025, -0.05, 1);
-	glVertex3f(-0.025, -0.05, 1);
-	glVertex3f(-0.025, 0, 1);
-	glEnd();
-
-	glBegin(GL_POLYGON);
-	glColor3f(0.3, 0.4, 0.1);
-	glVertex3f(0.01, 0, 1);
-	glVertex3f(0.01, 0.01, 1);
-	glVertex3f(-0.01, 0.01, 1);
-	glVertex3f(-0.01, 0.0, 1);
-	glEnd();
+	render_gun();
 
 
 	//// this is just so we can see where its pointing
@@ -172,6 +180,39 @@ void render_ship() {
 	//c.radius = ship.bounds.radius;
 
 	//render_circle(c, 0, 0, 1);
+}
+
+void render_gun()
+{
+	glBegin(GL_POLYGON);
+	glColor3f(0.3, 0.4, 0.1);
+	glVertex3f(0.025, 0, Z_LAYER);
+	glVertex3f(0.025, -0.05, Z_LAYER);
+	glVertex3f(-0.025, -0.05, Z_LAYER);
+	glVertex3f(-0.025, 0, Z_LAYER);
+	glEnd();
+
+	glBegin(GL_POLYGON);
+	glColor3f(0.3, 0.4, 0.1);
+	glVertex3f(0.01, 0, Z_LAYER);
+	glVertex3f(0.01, 0.01, Z_LAYER);
+	glVertex3f(-0.01, 0.01, Z_LAYER);
+	glVertex3f(-0.01, 0.0, Z_LAYER);
+	glEnd();
+
+	glBegin(GL_LINE_LOOP);
+	glColor3f(1, 0.4, 1);
+	glVertex3f(0.025, 0, Z_LAYER);
+	glVertex3f(0.025, -0.05, Z_LAYER);
+	glVertex3f(-0.025, -0.05, Z_LAYER);
+	glVertex3f(-0.025, 0, Z_LAYER);
+	glVertex3f(0.01, 0, Z_LAYER);
+	glVertex3f(0.01, 0.01, Z_LAYER);
+	glVertex3f(-0.01, 0.01, Z_LAYER);
+	glVertex3f(-0.01, 0.0, Z_LAYER);
+	glEnd();
+
+
 }
 
 void render_bullets() {
@@ -205,10 +246,10 @@ void render_wall() {
 	//glColor3f(wall.fill_colour.r, wall.fill_colour.g, wall.fill_colour.b);
 	glColor3f(wall.fill_colour.r, wall.fill_colour.g, wall.fill_colour.b);
 	//glLineWidth(20.0);
-	glVertex3f(wall.points[0].x, wall.points[0].y, wall.points[0].z);
-	glVertex3f(wall.points[1].x, wall.points[1].y, wall.points[1].z);
-	glVertex3f(wall.points[2].x, wall.points[2].y, wall.points[2].z);
-	glVertex3f(wall.points[3].x, wall.points[3].y, wall.points[3].z);
+	glVertex3f(wall.points[0].x, wall.points[0].y, Z_LAYER);
+	glVertex3f(wall.points[1].x, wall.points[1].y, Z_LAYER);
+	glVertex3f(wall.points[2].x, wall.points[2].y, Z_LAYER);
+	glVertex3f(wall.points[3].x, wall.points[3].y, Z_LAYER);
 
 	glEnd();
 
@@ -224,8 +265,8 @@ void render_wall() {
 	}
 	//GLfloat gl
 	//glLineWidth((GLfloat)20.0);
-	glVertex3f(wall.points[0].x, wall.points[0].y, wall.points[0].z);
-	glVertex3f(wall.points[1].x, wall.points[1].y, wall.points[1].z);
+	glVertex3f(wall.points[0].x, wall.points[0].y, Z_LAYER);
+	glVertex3f(wall.points[1].x, wall.points[1].y, Z_LAYER);
 	glEnd();
 
 	//right wall
@@ -238,8 +279,8 @@ void render_wall() {
 	{
 		glColor3f(wall.outline_colour.r, wall.outline_colour.g, wall.outline_colour.b);
 	}
-	glVertex3f(wall.points[2].x, wall.points[2].y, wall.points[2].z);
-	glVertex3f(wall.points[1].x, wall.points[1].y, wall.points[1].z);
+	glVertex3f(wall.points[2].x, wall.points[2].y, Z_LAYER);
+	glVertex3f(wall.points[1].x, wall.points[1].y, Z_LAYER);
 	glEnd();
 
 	//top wall
@@ -252,8 +293,8 @@ void render_wall() {
 	{
 		glColor3f(wall.outline_colour.r, wall.outline_colour.g, wall.outline_colour.b);
 	}
-	glVertex3f(wall.points[2].x, wall.points[2].y, wall.points[2].z);
-	glVertex3f(wall.points[3].x, wall.points[3].y, wall.points[3].z);
+	glVertex3f(wall.points[2].x, wall.points[2].y, Z_LAYER);
+	glVertex3f(wall.points[3].x, wall.points[3].y, Z_LAYER);
 	glEnd();
 
 	//left wall
@@ -266,8 +307,8 @@ void render_wall() {
 	{
 		glColor3f(wall.outline_colour.r, wall.outline_colour.g, wall.outline_colour.b);
 	}
-	glVertex3f(wall.points[0].x, wall.points[0].y, wall.points[0].z);
-	glVertex3f(wall.points[3].x, wall.points[3].y, wall.points[3].z);
+	glVertex3f(wall.points[0].x, wall.points[0].y, Z_LAYER);
+	glVertex3f(wall.points[3].x, wall.points[3].y, Z_LAYER);
 	glEnd();
 
 
@@ -350,27 +391,61 @@ void render_launch_position() {
 	render_circle(c, 1, 0, 0);
 }
 
+void render_UI() {
+	char score[16];
+	snprintf(score, 16, "Score: %d", ship.score);
+	render_string(g_mainwin.width - 200, g_mainwin.height - 50, GLUT_BITMAP_TIMES_ROMAN_24, score);
+	char time[16];
+	int seconds = ship.time / 1000;
+	int mintuns = seconds / 60;
+	seconds = seconds % 60;
+	snprintf(time, 16, "Time: %d:%d", mintuns, seconds);
 
+	render_string(100, g_mainwin.height - 50, GLUT_BITMAP_TIMES_ROMAN_24, time);
+}
 
-void render_frame()
-{
+void render_start() {
+	render_string(g_mainwin.width /2, g_mainwin.height /2, 
+		GLUT_BITMAP_TIMES_ROMAN_24, "Press any key to start...");
+}
+
+void render_playing() {
 	render_wall();
 	render_ship();
 	//render_circle(g_rand_circles[4], 1.0f, 0.0f, 0.0f);
 	render_asteroids();
 	render_bullets();
 	render_launch_position();
+	render_UI();
+}
 
-	//glPushMatrix();
-	//glLoadIdentity();
+void render_gameover() {
+	render_wall();
+	render_ship();
+	//render_circle(g_rand_circles[4], 1.0f, 0.0f, 0.0f);
+	render_asteroids();
+	render_bullets();
+	render_launch_position();
+	render_UI();
+	render_string(g_mainwin.width / 4, g_mainwin.height / 2, 
+		GLUT_BITMAP_TIMES_ROMAN_24, "Game Over. Press any key to restart...");
+}
 
-	//glPointSize(2.0);
-	/*glBegin(GL_POINT);
-	glColor3f(1, 1, 0);
-	glVertex2f(0.5, 0.5);
-	glEnd();
 
-	glPopMatrix();*/
+
+void render_frame()
+{
+	if (game.begin) {
+		render_start();
+	}
+	else if (game.playing) {
+		render_playing();
+	}
+	else if (game.gameover) {
+		render_gameover();
+	}
+	
+	
 
 }
 

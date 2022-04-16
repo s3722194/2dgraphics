@@ -126,6 +126,19 @@ void create_ship() {
 	ship.max_speed = ship.speed * 2;
 	ship.min_speed = ship.speed;
 	ship.last_move_up = true;
+
+	ship.score = 0;
+	ship.time = 0;
+
+
+}
+
+void create_game() {
+	game.begin = true;
+	game.gameover = false;
+	game.gameover = false;
+	game.restart = false;
+
 }
 
 void create_gun() {
@@ -203,12 +216,16 @@ void create_bullets() {
 }
 
 void create_asteroid() {
-	asteroids.lauch_radius = 1.5;
+	asteroids.lauch_radius = 2;
 	asteroids.wave = 1;
 	asteroids.wave_finished = false;
 	asteroids.number_of_asteroids = 0;
 	asteroids.create_more_asteroids = true;
 	asteroids.max_wave = 10;
+	asteroids.min_hit_point = 1;
+	asteroids.max_hit_points = 3;
+	asteroids.min_rotation_speed = 10;
+	asteroids.max_rotation_speed = 100;
 }
 
 void create_wall() {
@@ -259,6 +276,7 @@ void setup_game() {
 	create_wall();
 	create_bullets();
 	create_asteroid();
+	create_game();
 	delta_time = 0;
 	total_time = 0;
 }

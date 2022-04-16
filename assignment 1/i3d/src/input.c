@@ -30,28 +30,43 @@
 
 void on_key_press(unsigned char key, int x, int y)
 {
-	switch (key)
-	{
-	case 'w':
-		//ship.transform.position.y += 0.05;
-		ship.move_up = true;
-		break;
-	case 'a':
-		ship.turn_left = true;
-		break;
-	case 's':
-		ship.move_down = true;
-		break;
-	case 'd':
-		ship.turn_right = true;
-		break;
-	case KEY_ESC:
-	case 'q':
-		end_app();
-		break;
-	default:
-		break;
+	if (game.begin) {
+		game.begin = false;
+		game.playing = true;
+		game.gameover = false;
+		game.restart = false;
 	}
+	else if (game.playing) {
+		switch (key)
+		{
+		case 'w':
+			//ship.transform.position.y += 0.05;
+			ship.move_up = true;
+			break;
+		case 'a':
+			ship.turn_left = true;
+			break;
+		case 's':
+			ship.move_down = true;
+			break;
+		case 'd':
+			ship.turn_right = true;
+			break;
+		case KEY_ESC:
+		case 'q':
+			end_app();
+			break;
+		default:
+			break;
+		}
+	}
+	else if (game.gameover) {
+		game.begin = false;
+		game.playing = false;
+		game.gameover = false;
+		game.restart = true;
+	}
+	
 }
 
 void on_special_key_press(int key, int x, int y)
@@ -60,6 +75,7 @@ void on_special_key_press(int key, int x, int y)
 
 void on_key_release(unsigned char key, int x, int y)
 {
+
 	switch (key)
 	{
 	case 'w':
