@@ -206,7 +206,7 @@ int random_range(int min_number, int max_number) {
 void create_new_asteroid(int i)
 {
 	srand(time(0) + i);
-	printf("create asteroid!\n");
+	//printf("create asteroid!\n");
 	asteroid new_astreroid;
 	
 	//this is so we get some good vaules for rand 
@@ -304,7 +304,7 @@ void create_new_asteroid(int i)
 	new_astreroid.point = c;
 	new_astreroid.hit_point = (int)((new_astreroid.point.radius * 1000) / 30)+1;
 	//printf("radius %f\n", new_astreroid.point.radius);
-	printf("hp: %d\n", new_astreroid.hit_point);
+	//printf("hp: %d\n", new_astreroid.hit_point);
 
 	vector2 ship_to_local_world = vector_subtraction(vector3_to_vector2(ship.transform.position),
 		vector3_to_vector2(new_astreroid.transform.position));
@@ -335,7 +335,7 @@ void update_astroids() {
 
 			//if aasteroid is out of bounds delete
 			if (x < -asteroids.lauch_radius || x>asteroids.lauch_radius || y > asteroids.lauch_radius || y < -asteroids.lauch_radius) {
-				printf("delete astroid\n");
+				//printf("delete astroid\n");
 				delete_asteroid(i);
 
 				if (i != 0) {
@@ -431,7 +431,7 @@ void update_bullets()
 
 				//if a bullet it out of bounds
 				if (x < -2 || x>2 || y > 2 || y < -2) {
-					printf("delete bullet\n");
+					//printf("delete bullet\n");
 					bullets = delete_bullet(bullets, i);
 					if (i != 0) {
 						i -= 1;
@@ -455,7 +455,7 @@ void move_bullet(int i)
 
 void create_new_bullet()
 {
-	printf("create new bullet\n");
+	//printf("create new bullet\n");
 	bullet new_bullet;
 	new_bullet.speed = 0.001;
 	new_bullet.transform = ship.transform;
@@ -492,10 +492,10 @@ void check_bullet_asteroid_collision() {
 
 				int overlap = detect_overlap(asteroid_bounds, bullet_bounds);
 				if (overlap == 1) {
-					printf("collison with asteroid and bullet!\n");
+					//printf("collison with asteroid and bullet!\n");
 					if (asteroids.asteroids[i].hit_point > 1) {
 						asteroids.asteroids[i].hit_point -= 1;
-						printf("hit points %d", asteroids.asteroids[i].hit_point);
+						//printf("hit points %d", asteroids.asteroids[i].hit_point);
 						ship.score += 1;
 					}
 					else {
@@ -536,7 +536,7 @@ void check_player_asteroid_collision() {
 
 		int overlap = detect_overlap(asteroid_bounds, player_bounds);
 		if (overlap == 1) {
-			printf("collison with asteroid and player!\n");
+			//printf("collison with asteroid and player!\n");
 			game_over();
 			return;
 		}

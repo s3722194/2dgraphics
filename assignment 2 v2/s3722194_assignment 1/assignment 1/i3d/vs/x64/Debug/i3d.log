@@ -1,0 +1,51 @@
+﻿  main.c
+C:\Users\McLovin\Documents\3d graphics class\assignment 2 v2\s3722194_assignment 1\assignment 1\i3d\src\main.c(125,1): warning C4305: 'initializing': truncation from 'double' to 'float'
+C:\Users\McLovin\Documents\3d graphics class\assignment 2 v2\s3722194_assignment 1\assignment 1\i3d\src\main.c(260,26): warning C4305: 'function': truncation from 'double' to 'GLfloat'
+C:\Users\McLovin\Documents\3d graphics class\assignment 2 v2\s3722194_assignment 1\assignment 1\i3d\src\main.c(260,31): warning C4305: 'function': truncation from 'double' to 'GLfloat'
+C:\Users\McLovin\Documents\3d graphics class\assignment 2 v2\s3722194_assignment 1\assignment 1\i3d\src\main.c(260,36): warning C4305: 'function': truncation from 'double' to 'GLfloat'
+C:\Users\McLovin\Documents\3d graphics class\assignment 2 v2\s3722194_assignment 1\assignment 1\i3d\src\main.c(263,20): warning C4244: 'function': conversion from 'int' to 'GLfloat', possible loss of data
+C:\Users\McLovin\Documents\3d graphics class\assignment 2 v2\s3722194_assignment 1\assignment 1\i3d\src\main.c(264,20): warning C4244: 'function': conversion from 'int' to 'GLfloat', possible loss of data
+C:\Users\McLovin\Documents\3d graphics class\assignment 2 v2\s3722194_assignment 1\assignment 1\i3d\src\main.c(275,26): warning C4305: 'function': truncation from 'double' to 'GLfloat'
+C:\Users\McLovin\Documents\3d graphics class\assignment 2 v2\s3722194_assignment 1\assignment 1\i3d\src\main.c(275,31): warning C4305: 'function': truncation from 'double' to 'GLfloat'
+C:\Users\McLovin\Documents\3d graphics class\assignment 2 v2\s3722194_assignment 1\assignment 1\i3d\src\main.c(275,36): warning C4305: 'function': truncation from 'double' to 'GLfloat'
+C:\Users\McLovin\Documents\3d graphics class\assignment 2 v2\s3722194_assignment 1\assignment 1\i3d\src\main.c(278,20): warning C4244: 'function': conversion from 'int' to 'GLfloat', possible loss of data
+C:\Users\McLovin\Documents\3d graphics class\assignment 2 v2\s3722194_assignment 1\assignment 1\i3d\src\main.c(279,20): warning C4244: 'function': conversion from 'int' to 'GLfloat', possible loss of data
+C:\Users\McLovin\Documents\3d graphics class\assignment 2 v2\s3722194_assignment 1\assignment 1\i3d\src\main.c(289,26): warning C4305: 'function': truncation from 'double' to 'GLfloat'
+C:\Users\McLovin\Documents\3d graphics class\assignment 2 v2\s3722194_assignment 1\assignment 1\i3d\src\main.c(289,31): warning C4305: 'function': truncation from 'double' to 'GLfloat'
+C:\Users\McLovin\Documents\3d graphics class\assignment 2 v2\s3722194_assignment 1\assignment 1\i3d\src\main.c(289,36): warning C4305: 'function': truncation from 'double' to 'GLfloat'
+C:\Users\McLovin\Documents\3d graphics class\assignment 2 v2\s3722194_assignment 1\assignment 1\i3d\src\main.c(292,42): warning C4244: 'function': conversion from 'int' to 'GLfloat', possible loss of data
+C:\Users\McLovin\Documents\3d graphics class\assignment 2 v2\s3722194_assignment 1\assignment 1\i3d\src\main.c(293,43): warning C4244: 'function': conversion from 'int' to 'GLfloat', possible loss of data
+C:\Users\McLovin\Documents\3d graphics class\assignment 2 v2\s3722194_assignment 1\assignment 1\i3d\src\main.c(304,26): warning C4305: 'function': truncation from 'double' to 'GLfloat'
+C:\Users\McLovin\Documents\3d graphics class\assignment 2 v2\s3722194_assignment 1\assignment 1\i3d\src\main.c(304,31): warning C4305: 'function': truncation from 'double' to 'GLfloat'
+C:\Users\McLovin\Documents\3d graphics class\assignment 2 v2\s3722194_assignment 1\assignment 1\i3d\src\main.c(304,36): warning C4305: 'function': truncation from 'double' to 'GLfloat'
+C:\Users\McLovin\Documents\3d graphics class\assignment 2 v2\s3722194_assignment 1\assignment 1\i3d\src\main.c(307,43): warning C4244: 'function': conversion from 'int' to 'GLfloat', possible loss of data
+C:\Users\McLovin\Documents\3d graphics class\assignment 2 v2\s3722194_assignment 1\assignment 1\i3d\src\main.c(308,44): warning C4244: 'function': conversion from 'int' to 'GLfloat', possible loss of data
+C:\Users\McLovin\Documents\3d graphics class\assignment 2 v2\s3722194_assignment 1\assignment 1\i3d\src\main.c(319,26): warning C4305: 'function': truncation from 'double' to 'GLfloat'
+C:\Users\McLovin\Documents\3d graphics class\assignment 2 v2\s3722194_assignment 1\assignment 1\i3d\src\main.c(319,31): warning C4305: 'function': truncation from 'double' to 'GLfloat'
+C:\Users\McLovin\Documents\3d graphics class\assignment 2 v2\s3722194_assignment 1\assignment 1\i3d\src\main.c(319,36): warning C4305: 'function': truncation from 'double' to 'GLfloat'
+C:\Users\McLovin\Documents\3d graphics class\assignment 2 v2\s3722194_assignment 1\assignment 1\i3d\src\main.c(322,31): warning C4244: 'function': conversion from 'int' to 'GLfloat', possible loss of data
+C:\Users\McLovin\Documents\3d graphics class\assignment 2 v2\s3722194_assignment 1\assignment 1\i3d\src\main.c(323,32): warning C4244: 'function': conversion from 'int' to 'GLfloat', possible loss of data
+C:\Users\McLovin\Documents\3d graphics class\assignment 2 v2\s3722194_assignment 1\assignment 1\i3d\src\main.c(334,26): warning C4305: 'function': truncation from 'double' to 'GLfloat'
+C:\Users\McLovin\Documents\3d graphics class\assignment 2 v2\s3722194_assignment 1\assignment 1\i3d\src\main.c(334,31): warning C4305: 'function': truncation from 'double' to 'GLfloat'
+C:\Users\McLovin\Documents\3d graphics class\assignment 2 v2\s3722194_assignment 1\assignment 1\i3d\src\main.c(334,36): warning C4305: 'function': truncation from 'double' to 'GLfloat'
+C:\Users\McLovin\Documents\3d graphics class\assignment 2 v2\s3722194_assignment 1\assignment 1\i3d\src\main.c(337,31): warning C4244: 'function': conversion from 'int' to 'GLfloat', possible loss of data
+C:\Users\McLovin\Documents\3d graphics class\assignment 2 v2\s3722194_assignment 1\assignment 1\i3d\src\main.c(338,32): warning C4244: 'function': conversion from 'int' to 'GLfloat', possible loss of data
+C:\Users\McLovin\Documents\3d graphics class\assignment 2 v2\s3722194_assignment 1\assignment 1\i3d\src\main.c(246,1): warning C4305: 'initializing': truncation from 'double' to 'float'
+C:\Users\McLovin\Documents\3d graphics class\assignment 2 v2\s3722194_assignment 1\assignment 1\i3d\src\main.c(254,19): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\McLovin\Documents\3d graphics class\assignment 2 v2\s3722194_assignment 1\assignment 1\i3d\src\main.c(269,18): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\McLovin\Documents\3d graphics class\assignment 2 v2\s3722194_assignment 1\assignment 1\i3d\src\main.c(283,18): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\McLovin\Documents\3d graphics class\assignment 2 v2\s3722194_assignment 1\assignment 1\i3d\src\main.c(298,18): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\McLovin\Documents\3d graphics class\assignment 2 v2\s3722194_assignment 1\assignment 1\i3d\src\main.c(313,18): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\McLovin\Documents\3d graphics class\assignment 2 v2\s3722194_assignment 1\assignment 1\i3d\src\main.c(328,18): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\McLovin\Documents\3d graphics class\assignment 2 v2\s3722194_assignment 1\assignment 1\i3d\src\main.c(363,1): warning C4305: 'initializing': truncation from 'double' to 'float'
+C:\Users\McLovin\Documents\3d graphics class\assignment 2 v2\s3722194_assignment 1\assignment 1\i3d\src\main.c(401,1): warning C4305: 'initializing': truncation from 'double' to 'float'
+C:\Users\McLovin\Documents\3d graphics class\assignment 2 v2\s3722194_assignment 1\assignment 1\i3d\src\main.c(413,1): warning C4305: 'initializing': truncation from 'double' to 'float'
+C:\Users\McLovin\Documents\3d graphics class\assignment 2 v2\s3722194_assignment 1\assignment 1\i3d\src\main.c(469,1): warning C4305: 'initializing': truncation from 'double' to 'GLfloat'
+C:\Users\McLovin\Documents\3d graphics class\assignment 2 v2\s3722194_assignment 1\assignment 1\i3d\src\main.c(470,1): warning C4305: 'initializing': truncation from 'double' to 'GLfloat'
+C:\Users\McLovin\Documents\3d graphics class\assignment 2 v2\s3722194_assignment 1\assignment 1\i3d\src\main.c(471,1): warning C4305: 'initializing': truncation from 'double' to 'GLfloat'
+C:\Users\McLovin\Documents\3d graphics class\assignment 2 v2\s3722194_assignment 1\assignment 1\i3d\src\main.c(476,1): warning C4305: 'initializing': truncation from 'double' to 'GLfloat'
+C:\Users\McLovin\Documents\3d graphics class\assignment 2 v2\s3722194_assignment 1\assignment 1\i3d\src\main.c(561,27): warning C4013: 'update_camera_position' undefined; assuming extern returning int
+C:\Users\McLovin\Documents\3d graphics class\assignment 2 v2\s3722194_assignment 1\assignment 1\i3d\src\main.c(581,1): warning C4305: 'initializing': truncation from 'double' to 'GLfloat'
+C:\Users\McLovin\Documents\3d graphics class\assignment 2 v2\s3722194_assignment 1\assignment 1\i3d\src\main.c(600,36): warning C4113: 'void (__cdecl *)()' differs in parameter lists from 'void (__cdecl *)(void)'
+C:\Users\McLovin\Documents\3d graphics class\assignment 2 v2\s3722194_assignment 1\assignment 1\i3d\src\main.c(613,25): warning C4113: 'void (__cdecl *)()' differs in parameter lists from 'void (__cdecl *)(void)'
+  i3d.vcxproj -> C:\Users\McLovin\Documents\3d graphics class\assignment 2 v2\s3722194_assignment 1\assignment 1\i3d\i3d64dbg.exe

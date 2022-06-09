@@ -415,7 +415,7 @@ void render_playing() {
 	//render_circle(g_rand_circles[4], 1.0f, 0.0f, 0.0f);
 	render_asteroids();
 	render_bullets();
-	render_launch_position();
+	//render_launch_position();
 	render_UI();
 }
 
@@ -425,7 +425,7 @@ void render_gameover() {
 	//render_circle(g_rand_circles[4], 1.0f, 0.0f, 0.0f);
 	render_asteroids();
 	render_bullets();
-	render_launch_position();
+	//render_launch_position();
 	render_UI();
 	render_string(g_mainwin.width / 4, g_mainwin.height / 2, 
 		GLUT_BITMAP_TIMES_ROMAN_24, "Game Over. Press any key to restart...");
