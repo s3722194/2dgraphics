@@ -1,0 +1,13 @@
+﻿  logic.c
+C:\Users\McLovin\Documents\3d graphics class\assignment 2 v2\s3722194_assignment 1\assignment 1\i3d\src\logic.c(29,23): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\McLovin\Documents\3d graphics class\assignment 2 v2\s3722194_assignment 1\assignment 1\i3d\src\logic.c(103,28): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\McLovin\Documents\3d graphics class\assignment 2 v2\s3722194_assignment 1\assignment 1\i3d\src\logic.c(105,28): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\McLovin\Documents\3d graphics class\assignment 2 v2\s3722194_assignment 1\assignment 1\i3d\src\logic.c(106,28): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\McLovin\Documents\3d graphics class\assignment 2 v2\s3722194_assignment 1\assignment 1\i3d\src\logic.c(209,30): warning C4028: formal parameter 1 different from declaration
+C:\Users\McLovin\Documents\3d graphics class\assignment 2 v2\s3722194_assignment 1\assignment 1\i3d\src\logic.c(332,28): warning C4244: 'function': conversion from 'int' to 'float', possible loss of data
+C:\Users\McLovin\Documents\3d graphics class\assignment 2 v2\s3722194_assignment 1\assignment 1\i3d\src\logic.c(357,63): warning C4244: 'function': conversion from 'float' to 'int', possible loss of data
+C:\Users\McLovin\Documents\3d graphics class\assignment 2 v2\s3722194_assignment 1\assignment 1\i3d\src\logic.c(357,93): warning C4244: 'function': conversion from 'float' to 'int', possible loss of data
+C:\Users\McLovin\Documents\3d graphics class\assignment 2 v2\s3722194_assignment 1\assignment 1\i3d\src\logic.c(561,25): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\McLovin\Documents\3d graphics class\assignment 2 v2\s3722194_assignment 1\assignment 1\i3d\src\logic.c(563,26): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\McLovin\Documents\3d graphics class\assignment 2 v2\s3722194_assignment 1\assignment 1\i3d\src\logic.c(582,13): warning C4101: 'bullet_bounds': unreferenced local variable
+  i3d.vcxproj -> C:\Users\McLovin\Documents\3d graphics class\assignment 2 v2\s3722194_assignment 1\assignment 1\i3d\i3d64dbg.exe
